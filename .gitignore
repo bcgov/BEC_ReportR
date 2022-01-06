@@ -1,0 +1,6 @@
+BEC_ReportR/
+BEC_ReportR/*
+*.csv
+*.RData
+*.accdb
+
