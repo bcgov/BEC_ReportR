@@ -110,7 +110,8 @@ Hier.data <- left_join(Hier.units, SS_good) %>% filter(!is.na(nPlots)) %>% arran
 #print(SS_good)   # SiteUnit, Species, MeanCov, Constancy, nPlots
 #print(Hier.data)  # SiteUnit, Species, MeanCov, Constancy, nPlots, Class, Order, Suborder, MeanCov, Constancy
 
-
+Hier.data <- Hier.data[order(Hier.data$SiteUnit),]
+SUTab <- SUTab[order(SUTab$SiteUnit)]
 
 ## ----some hierarchy stats---------------------------------------------------------------------------------------
 classes <- unique(Hier.data$Class)

@@ -4,3 +4,4 @@ BEC_ReportR/*
 *.RData
 *.accdb
 
+.Rproj.user
