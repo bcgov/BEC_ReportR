@@ -47,7 +47,6 @@ unique_assoc <- unique(Hier.data[["Assoc"]])
 createHierReportData(level_name, level_value, SUTab)
 
 
-
 #lapply(uniqueClasses, createReportData(levelName))
 
 ```
@@ -64,7 +63,8 @@ Climate_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.c
 
 ```{r}
 # Get plot_numbers_in_level
-plot_numbers_in_level <- readRDS("fname.RData")
+plot_numbers_file_name <- paste("plot_numbers_in", str_replace_all(level_value, " ", "_"), ".RDS", sep="")
+plot_numbers_in_level <- readRDS(file.path("plotNumbers", level_name, plot_numbers_file_name))
 
 
 # Get relevant plot data rows from each Plot data file
@@ -110,5 +110,12 @@ print(rolled_up_list)
 ```
 
 
+```{r}
+library(jsonlite)
+
+json <- '{"name": "Oamar", "dob": "June 20 1994", "age": 27, "interests": ["bike", "ski", "code"]}'
+fromJSON(json, simplifyVector = FALSE)
+
+```
 
 
