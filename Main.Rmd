@@ -78,12 +78,35 @@ Climate_Plot_data_for_level <-  Climate_Plot_data[ Climate_Plot_data$PlotNumber 
 
 
 
-```{r Create env variable functions lookup table}
-#Create this csv file manualy
+```{r Create env variable functions data frame}
+# This prints env variable names to a list. A JASON doc is then created manually 
+
+#reports_dir <- file.path("reports", level_name) 
+#if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
+
+env_names <- names(ENV_Plot_data)
+
+env_names_list <- list()
+for (name in env_names) {
+  
+  print(name)
+  env_names_list[[ name[1] ]] <- "[]"
+
+}
+ 
+print(env_names_list) 
+
 env_variables_summary_functions <- data.frame(variable_name=names(ENV_Plot_data))
 write.csv(env_variables_summary_functions,"./env_variables_summary_functions.csv", row.names = FALSE)
 
+humus_variables_summary_functions <- data.frame(variable_name=names(Humus_Plot_data))
+write.csv(humus_variables_summary_functions,"./humus_variables_summary_functions.csv", row.names = FALSE)
+
+mineral_variables_summary_functions <- data.frame(variable_name=names(Mineral_Plot_data))
+write.csv(humus_variables_summary_functions,"./humus_variables_summary_functions.csv", row.names = FALSE)
 ```
+
+
 
 
 ```{r summerize plot data file test}
