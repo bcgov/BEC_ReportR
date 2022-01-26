@@ -83,3 +83,35 @@ print(jointdataset)
 left_join_dataset = left_join(df, df2, by = 'SiteUnits')
 print(left_join_dataset)
 ```
+
+```{r summerize plot data file test}
+x <- c("A", "B", "G")
+y <- c(5, 3, 7)
+z <- c("A", "X", "Z")
+r <- c("A", "T", "T")
+
+rolled_up_list <- list()
+
+
+df <- data.frame(x, y, z, r)
+lookup_df <- data.frame(variable_name=c("x", "y", "z", "r"), function_name=c("table", "min", "table", "table"))
+
+for (name in names(df)) {
+  
+  fun <- lookup_df %>% filter(variable_name == name) %>% pull("function_name")
+  rolled_up_list <- append(rolled_up_list, list(do.call(fun, df[name])))
+}
+
+print(rolled_up_list)
+
+
+```
+
+
+```{r}
+library(jsonlite)
+
+json <- '{"name": "Oamar", "dob": "June 20 1994", "age": 27, "interests": ["bike", "ski", "code"]}'
+fromJSON(json, simplifyVector = FALSE)
+
+```

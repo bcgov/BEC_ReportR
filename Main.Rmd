@@ -58,87 +58,101 @@ ENV_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster19_ENV.csv")
 Humus_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster19_Humus.csv")
 Mineral_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster19_Mineral.csv")
 Climate_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.csv")
+Admin_Plot_data <- fread("./BEC_ReportR/Plot_Data/BECMaster19_Admin.csv")
 ```
 
 
 ```{r}
 # Get plot_numbers_in_level
-plot_numbers_file_name <- paste("plot_numbers_in", str_replace_all(level_value, " ", "_"), ".RDS", sep="")
-plot_numbers_in_level <- readRDS(file.path("plotNumbers", level_name, plot_numbers_file_name))
+plot_numbers_file_name <- paste("plot_numbers_in_", str_replace_all(level_value, " ", "_"), ".RDS", sep="")
+plot_numbers_in_level <- readRDS(file.path("plotNumbers", level_name, plot_numbers_file_name))[[1]]
 
 
 # Get relevant plot data rows from each Plot data file
+
+#ENV_Plot_data_for_level <- ENV_Plot_data %>% filter(ENV_Plot_data$PlotNumber %in% plot_numbers_in_level)
+
+
 ENV_Plot_data_for_level <- ENV_Plot_data[ENV_Plot_data$PlotNumber %in% plot_numbers_in_level]
 Humus_Plot_data_for_level <- Humus_Plot_data[Humus_Plot_data$PlotNumber %in% plot_numbers_in_level]
 Mineral_Plot_data_for_level <- Mineral_Plot_data[Mineral_Plot_data$PlotNumber %in% plot_numbers_in_level]
-Climate_Plot_data_for_level <-  Climate_Plot_data[ Climate_Plot_data$PlotNumber %in% plot_numbers_in_level]
+Climate_Plot_data_for_level <-  Climate_Plot_data[Climate_Plot_data$PlotNumber %in% plot_numbers_in_level]
+Admin_Plot_data_for_level <- Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_in_level]
   
 # Write relevant plot data rows from each Plot
 ```
 
 
 
-```{r Create env variable functions data frame}
+```{r Create empty lookup function json files for each plot file }
 # This prints env variable names to a list. A JASON doc is then created manually 
 
 #reports_dir <- file.path("reports", level_name) 
 #if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
 
-env_names <- names(ENV_Plot_data)
+library(rjson)
 
-env_names_list <- list()
-for (name in env_names) {
+create_json_template <- function(plot_data_names, file_name) {
   
-  print(name)
-  env_names_list[[ name[1] ]] <- "[]"
-
+  if (!dir.exists("lookup_functions")) {
+    dir.create("lookup_functions")
+  }
+  
+  if(file.exists(file.path("lookup_functions", file_name))) return()
+  
+  names_list <- list()
+  for (name in plot_data_names) {
+    names_list[[ name ]] <- list()
+  }
+  write(toJSON(names_list), file.path("lookup_functions", file_name))
 }
- 
-print(env_names_list) 
 
-env_variables_summary_functions <- data.frame(variable_name=names(ENV_Plot_data))
-write.csv(env_variables_summary_functions,"./env_variables_summary_functions.csv", row.names = FALSE)
 
-humus_variables_summary_functions <- data.frame(variable_name=names(Humus_Plot_data))
-write.csv(humus_variables_summary_functions,"./humus_variables_summary_functions.csv", row.names = FALSE)
+create_json_template(names(ENV_Plot_data), "env_lookup_functions.json")
+create_json_template(names(Humus_Plot_data), "humus_lookup_functions.json")
+create_json_template(names(Mineral_Plot_data), "mineral_lookup_functions.json")
+create_json_template(names(Climate_Plot_data), "climate_lookup_functions.json")
+create_json_template(names(Admin_Plot_data), "admin_lookup_functions.json")
 
-mineral_variables_summary_functions <- data.frame(variable_name=names(Mineral_Plot_data))
-write.csv(humus_variables_summary_functions,"./humus_variables_summary_functions.csv", row.names = FALSE)
+# Note: The functions need to be manually filled out in the json file
+
 ```
 
 
-
-
-```{r summerize plot data file test}
-x <- c("A", "B", "G")
-y <- c(5, 3, 7)
-z <- c("A", "X", "Z")
-r <- c("A", "T", "T")
-
-rolled_up_list <- list()
-
-
-df <- data.frame(x, y, z, r)
-lookup_df <- data.frame(variable_name=c("x", "y", "z", "r"), function_name=c("table", "min", "table", "table"))
-
-for (name in names(df)) {
-  
-  fun <- lookup_df %>% filter(variable_name == name) %>% pull("function_name")
-  rolled_up_list <- append(rolled_up_list, list(do.call(fun, df[name])))
-}
-
-print(rolled_up_list)
-
-
+```{r Read lookup functions}
+env_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
+humus_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
+mineral_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
+climate_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
+admin_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
 ```
-
 
 ```{r}
-library(jsonlite)
+roll_up_plot_data <- function(plot_data, lookup_function_list) {
 
-json <- '{"name": "Oamar", "dob": "June 20 1994", "age": 27, "interests": ["bike", "ski", "code"]}'
-fromJSON(json, simplifyVector = FALSE)
+  rolled_up_list <- list()
+  
+  for (variable_name in names(lookup_function_list)) {
+    
+    variable_summaries <- list()
+    
+    for (function_name in lookup_function_list[[variable_name]]) {
+    
+        variable_summaries[[function_name]] <- list(do.call(function_name, list(plot_data[[variable_name]])))
+    }
+    
+    rolled_up_list[[variable_name]] <- variable_summaries
+  }
+  
+  return(rolled_up_list)
+}
 
+env_summary <- roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions)
+humas_summary <- roll_up_plot_data(Humus_Plot_data_for_level, humus_lookup_functions)
+mineral_summary <- roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions)
+climate_summary <- roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions)
+admin_summary <- roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions)
 ```
+
 
 
