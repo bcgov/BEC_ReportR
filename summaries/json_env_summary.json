@@ -1,0 +1,553 @@
+{
+  "FSRegionDistrict": {
+    "variable_type": "categorical",
+    "summary": { "car": 10, "KAM": 2, "NE": 4, "RSI.DCC": 11, "RSI.DCH": 1 }
+  },
+  "SiteSurveyor": {
+    "variable_type": "categorical",
+    "summary": {
+      "CC": 4,
+      "CM": 2,
+      "Coupe": 2,
+      "DJ": 1,
+      "DS": 3,
+      "EE": 1,
+      "EM": 3,
+      "G.Kernaghan": 1,
+      "JR": 1,
+      "JS": 1,
+      "JY": 1,
+      "KI": 5,
+      "KR": 1,
+      "LM": 5,
+      "M. Doney": 1,
+      "MS": 1,
+      "PS": 2,
+      "Ray Coupe": 2,
+      "RC": 4,
+      "SC": 2,
+      "TG": 1,
+      "UL": 4
+    }
+  },
+  "PlotRepresenting": {
+    "variable_type": "categorical",
+    "summary": {
+      "Acer gla": 1,
+      "active Fluvial": 1,
+      "Amelaln": 2,
+      "Aralia": 1,
+      "Aspen": 6,
+      "ASPEN FOREST IN MOIST GULLY": 1,
+      "Aspen stand: Aspen": 1,
+      "Astecil on silty gully": 1,
+      "bluegrass": 1,
+      "Bromus depression": 1,
+      "Cool": 1,
+      "deeply incised gully w": 1,
+      "Gleysolic i": 1,
+      "juniper": 1,
+      "moist Aspen": 1,
+      "moist Aspen draw": 1,
+      "pinegrass": 2,
+      "Poa pra": 2,
+      "Popu trem": 1,
+      "Poputre": 3,
+      "Rich": 2,
+      "Rich moist Aspen site": 1,
+      "Rich productive Aspen draw": 1,
+      "Riparian Aspen stand on lacustrine terrace": 1,
+      "RIPARIAN OF SMALL PERMANANT CREEK": 1,
+      "RIPARIAN ZONE WITH ASPEN": 1,
+      "robust shrubs": 1,
+      "Rosa": 1,
+      "Rosa aci": 1,
+      "Rosa woo": 1,
+      "rose": 2,
+      "Rose": 1,
+      "Sali dis": 1,
+      "saskatoon": 1,
+      "Saskatoon": 1,
+      "Shepcan": 1,
+      "Shg depression": 1,
+      "shrub": 1,
+      "shrub site(wood on ground from l": 1,
+      "snowberry": 1,
+      "Symp alb": 2,
+      "Sympalb": 1,
+      "symphoriocarpus": 1,
+      "trees~20m": 1,
+      "Viol can": 1
+    }
+  },
+  "Location": {
+    "variable_type": "description",
+    "summary": [
+      "MEASONCK",
+      "WYCOTTFL",
+      "WYCOTTFL",
+      "DOGCKAIR - Just below airport (south) on main road",
+      "Northwest corner of study",
+      "WYCOTTFL",
+      "DOGCREEK",
+      "COTTON R",
+      "10 km S of Churn Creek, 8-10 km W of Fraser",
+      "JUNCTION",
+      "Junction, below cabin",
+      "Pasture across form Loran C tower",
+      "Pasture across from Loran C tower",
+      "N of Empire Valley, W of main road.",
+      "N of Empire Valley Ranch, W of Main Rd.",
+      "WEST OF WINEGLASS RANCH",
+      "SOUTH OF ROSS GULCH",
+      "MOUTH OF KLOH CREEK, CHILCOTIN RIVER",
+      "East of Red Rock Road",
+      "Becher's Prarie, Ball Diamond Exclosure",
+      "West of Fairmont Hot Springs-Westside Rd",
+      "West of Fairmont Hot Springs, Westside Rd",
+      "Near Columbia wetland-east of Steamboat Mtn"
+    ]
+  },
+  "Ecosection": {
+    "variable_type": "categorical",
+    "summary": { "EKT": 1, "FRB": 12 }
+  },
+  "AirPhotoNum": {
+    "variable_type": "categorical",
+    "summary": {
+      "30BCC914 #89": 1,
+      "30BCC93046-158": 1,
+      "30BCC93047-99": 1,
+      "30BCC95075-22": 1,
+      "BCC92019 #054": 1,
+      "BCC92019 #056": 1,
+      "BCC92019 #060": 1,
+      "BCC92019 #071": 1,
+      "BCC92044 #263": 1
+    }
+  },
+  "Zone": {
+    "variable_type": "categorical",
+    "summary": { "BG": 13, "IDF": 11 }
+  },
+  "SubZone": {
+    "variable_type": "categorical",
+    "summary": { "xk": 4, "xm": 7, "xw2": 13 }
+  },
+  "SiteSeries": {
+    "variable_type": "categorical",
+    "summary": { "00": 3, "05": 4, "06": 1, "111": 4 }
+  },
+  "RealmClass": { "variable_type": "categorical", "summary": [] },
+  "MapUnit": {
+    "variable_type": "categorical",
+    "summary": { "AR4": 1, "AR5": 2, "DM3": 1, "DM3b-5": 1, "DM5": 1, "SS5": 1 }
+  },
+  "SnowCoverregime": { "variable_type": "categorical", "summary": [] },
+  "MoistureRegime": {
+    "variable_type": "categorical",
+    "summary": { "4-5": 1, "4+": 1, "5": 20, "6": 1 }
+  },
+  "NutrientRegime": {
+    "variable_type": "categorical",
+    "summary": { "C": 3, "D": 20 }
+  },
+  "SuccessionalStatus": {
+    "variable_type": "categorical",
+    "summary": {
+      "DC": 4,
+      "EC": 1,
+      "F-G": 2,
+      "LS": 2,
+      "MEC": 2,
+      "MS": 5,
+      "YEC": 2,
+      "YS": 3
+    }
+  },
+  "StructuralStage": {
+    "variable_type": "categorical",
+    "summary": { "3": 1, "3b-5": 1, "4": 1, "5": 7 }
+  },
+  "StructuralStageMod": { "variable_type": "categorical", "summary": [] },
+  "StandAge": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": "NA",
+      "1st Qu.": "NA",
+      "Median": "NA",
+      "Mean": "NaN",
+      "3rd Qu.": "NA",
+      "Max.": "NA"
+    }
+  },
+  "Elevation": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 610,
+      "1st Qu.": 733.5,
+      "Median": 841,
+      "Mean": 835.695652173913,
+      "3rd Qu.": 930,
+      "Max.": 1080
+    }
+  },
+  "SlopeGradient": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 2,
+      "Mean": 6.78260869565217,
+      "3rd Qu.": 5.5,
+      "Max.": 55
+    }
+  },
+  "Aspect": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 5,
+      "1st Qu.": 194.5,
+      "Median": 999,
+      "Mean": 659.478260869565,
+      "3rd Qu.": 999,
+      "Max.": 999
+    }
+  },
+  "MesoSlopePosition": {
+    "variable_type": "categorical",
+    "summary": { "DP": 10, "GU": 1, "LV": 4, "LW": 3, "MD": 2, "TO": 3 }
+  },
+  "SurfaceShape": {
+    "variable_type": "categorical",
+    "summary": { "CC": 12, "ST": 11 }
+  },
+  "SurfaceTopographyType": { "variable_type": "categorical", "summary": [] },
+  "SurfaceTopographySize": { "variable_type": "categorical", "summary": [] },
+  "WaterSource": {
+    "variable_type": "categorical",
+    "summary": { "G": 2, "P": 1, "S": 1 }
+  },
+  "Exposure1": { "variable_type": "categorical", "summary": { "NA": 4 } },
+  "Exposure2": { "variable_type": "categorical", "summary": [] },
+  "SiteDisturbance1": {
+    "variable_type": "categorical",
+    "summary": {
+      "B.d.": 2,
+      "Bd": 1,
+      "BIO-d": 1,
+      "F.i.": 1,
+      "Ls": 2,
+      "WAT-i": 1,
+      "Wi": 1
+    }
+  },
+  "SiteDisturbance2": { "variable_type": "categorical", "summary": [] },
+  "SubstrateDecWood": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 1,
+      "Median": 2,
+      "Mean": 3.71304347826087,
+      "3rd Qu.": 4.5,
+      "Max.": 15
+    }
+  },
+  "SubstrateBedRock": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 0,
+      "3rd Qu.": 0,
+      "Max.": 0
+    }
+  },
+  "SubstrateRocks": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 2.9,
+      "3rd Qu.": 0.75,
+      "Max.": 30
+    }
+  },
+  "SubstrateMineralSoil": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 1,
+      "3rd Qu.": 0.25,
+      "Max.": 10
+    }
+  },
+  "SubstrateOrganicMatter": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 60,
+      "1st Qu.": 89,
+      "Median": 98,
+      "Mean": 92.8695652173913,
+      "3rd Qu.": 99,
+      "Max.": 100
+    }
+  },
+  "SubstrateWater": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 4.455,
+      "3rd Qu.": 0,
+      "Max.": 88
+    }
+  },
+  "SiteNotes": {
+    "variable_type": "description",
+    "summary": [
+      "in depression; stipa grassland matrix; large aspen and rich lush herbs",
+      "ON CARD: Site Type = Popu trem and Sali dis; Biogeo Unit = BGxh3/xw2?; Latitude,  Longitude and Site History are blank; Success. Status = fair;",
+      "Is this a former Chernozem becoming a luvisol?  Young, dense Aspen stand - clump in middle of gently rolling grasslands.  Very few species in interior, but many at edge.  Wildlife - solitary vireo, pine siskin.  ON CARD: Site Type =  Aspen, Rosa woo, Symp alb; Map Sheet, Latitude and Longitude are blank;Biogeo Unit = middle grassland - BGxw2; Success. Status = early seral? - Aspen trees 6-10 cm diam and very dense;",
+      "Wildlife - WaVi, SoSp, RBNu.  Range - a few cow pies, but doesn't seem too disturbed.  Notes - Viol can present only in portions of stand, not evenly distributed.  Thick leaf litter prev D layer.  Mostly young aspen with a few old vets and some lg old aspen present as CWD.    ON CARD: Site Type = Aspen, shrub, pinegrass; Map Sheet, Latitude,  Longitude and Site History are blank; Success. Status = good;",
+      "Notes - Open aspen stand next to Stip ric site.  Not as shrubby as in middle grasslands with Juni instead of Rosa and Symp.  Litter 98%/3cm.   ON CARD: Map Sheet, Latitude and Longitude are blank; Site Type = Aspen, pinegrass, juniper; Nutrient Regime = medium-rich; Success. Status = fair-good - lots of dandelion; Site History = no recent cowpies;",
+      "Shrubby open Aspen type with less pinegrass; some Juni sco/com and scattered Fd.  Litter 60%/ 3cm.  Some cow paddies.   ON CARD: Map Sheet, Latitude and Longitude are blank; SiteType = Aspen / Rose; Meso Slope Pos = level-dep; Nutrient Regime = med-rich; Success. Status = fair-good; Site History = some grazing - lots of Tara off;",
+      "Climax with weeds; Old aspen stand with lots of disease, lots of sapsuckers feeding sign, next to Hardeum wetland.  Weeds scattered in this type.  Photo of the site and mountain chickadee cavity (no numbers given).  Wildlife - mtn chickadee, nuthatch.  ON CARD: Site Unit = Aspen - saskatoon - rose - symphoriocarpus - bluegrass;  Map Sheet, Latitude, Longitude, Success. Status, and Site History are blank; Moisture Regime = shg+; Surface Substrate Dead Wood = 0.1%;",
+      "Dense Acer gla thicket where 4-5 fir were removed about 30 yrs ago.  Along ephimeral stream, no distinct streambed, all vegetated.  On cool slope above - grades to Fd, Sypm and Fd moss; and on warm aspect - grades to Arte tri, Elym spi, and Stipa com.  Rhus rad in type but not in plot.  ON CARD: Map Sheet, Latitude, and Longitude are blank; Site History = Some past selective logging;",
+      "NARROW (15+ m) RIPARIAN BETWEEN STEEP BANKS",
+      "Plot centred on older At.  Site in exclosure with no grazing for more than 2 years.  Litter %90.  ON CARD: Meso Slope Pos = slight DP; Site Disturbance = some trees cut several years ago; Success. Status = : MS",
+      "Poor condition aspen stand with few vets and lots of younger stems and some dead; not a very closed canopy.  Not a common type in IDFxk.",
+      "Mid-aged At stand; Pl have all been recently felled and bucked up as an ecosystem restoratin project; none in plot, few very old stumps"
+    ]
+  },
+  "SoilSurveyor": {
+    "variable_type": "categorical",
+    "summary": { "Coupe": 2, "EE": 1, "KI": 5, "LM": 5, "M. Doney": 1, "RC": 1 }
+  },
+  "BedrockGeology1": { "variable_type": "categorical", "summary": [] },
+  "BedrockGeology2": { "variable_type": "categorical", "summary": [] },
+  "BedrockGeology3": { "variable_type": "categorical", "summary": [] },
+  "CoarseFragLith1": { "variable_type": "categorical", "summary": [] },
+  "CoarseFragLith2": { "variable_type": "categorical", "summary": [] },
+  "CoarseFragLith3": { "variable_type": "categorical", "summary": [] },
+  "TerrainTextureSurf": {
+    "variable_type": "categorical",
+    "summary": { "zLb": 1 }
+  },
+  "SurficialMaterialSurf": {
+    "variable_type": "categorical",
+    "summary": { "E": 1, "FG": 1, "L": 6, "M": 2 }
+  },
+  "SurfaceExpSurf": {
+    "variable_type": "categorical",
+    "summary": { "b": 5, "v": 1 }
+  },
+  "GeoMorProSurf": { "variable_type": "categorical", "summary": [] },
+  "TerrainTextureSubSurf": { "variable_type": "categorical", "summary": [] },
+  "SurficialMaterialSubSurf": {
+    "variable_type": "categorical",
+    "summary": { "M": 1 }
+  },
+  "SurfaceExpSubSurf": {
+    "variable_type": "categorical",
+    "summary": { "b": 1 }
+  },
+  "GeoMorProSubSurf": { "variable_type": "categorical", "summary": [] },
+  "FloodingRegimeFreq": { "variable_type": "categorical", "summary": [] },
+  "MoistureRegimeSub": { "variable_type": "categorical", "summary": [] },
+  "FloodingRegimeDur": { "variable_type": "categorical", "summary": [] },
+  "SoilDrainage": {
+    "variable_type": "categorical",
+    "summary": { "i": 3, "I": 3, "m": 5, "M": 1, "MW": 3, "w": 1, "W": 2 }
+  },
+  "SeepageDepth": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 35,
+      "1st Qu.": 35,
+      "Median": 35,
+      "Mean": 35,
+      "3rd Qu.": 35,
+      "Max.": 35
+    }
+  },
+  "RootRestrictingType": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": "NA",
+      "1st Qu.": "NA",
+      "Median": "NA",
+      "Mean": "NaN",
+      "3rd Qu.": "NA",
+      "Max.": "NA"
+    }
+  },
+  "RootRestrictingDepth": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 41,
+      "1st Qu.": 41,
+      "Median": 41,
+      "Mean": 41,
+      "3rd Qu.": 41,
+      "Max.": 41
+    }
+  },
+  "RootZoneParticleSize": {
+    "variable_type": "categorical",
+    "summary": {
+      "CL/SCL": 1,
+      "FL": 1,
+      "FSI": 8,
+      "M": 1,
+      "S": 1,
+      "SiCL": 4,
+      "SiL": 1
+    }
+  },
+  "RootingDepth": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 8,
+      "1st Qu.": 23,
+      "Median": 29.5,
+      "Mean": 30.1111111111111,
+      "3rd Qu.": 39.75,
+      "Max.": 70
+    }
+  },
+  "SoilClassSubGroup": {
+    "variable_type": "categorical",
+    "summary": { "E": 1, "O": 3, "SM": 1 }
+  },
+  "SoilClassGroup": {
+    "variable_type": "categorical",
+    "summary": {
+      ".EB": 1,
+      "BR": 3,
+      "CU.R": 1,
+      "DYB": 1,
+      "EB": 3,
+      "G": 1,
+      "GBL": 1,
+      "GL": 4,
+      "O.DB": 1,
+      "O.EB": 1,
+      "O.GL": 2,
+      "O.R": 1,
+      "SB": 1
+    }
+  },
+  "HumusForm": {
+    "variable_type": "categorical",
+    "summary": {
+      ".RD": 1,
+      ".VL": 1,
+      "D": 1,
+      "L": 5,
+      "LEMD": 1,
+      "MD": 2,
+      "NONE": 2,
+      "ORML": 1,
+      "pd": 1,
+      "TD": 1,
+      "VL": 1
+    }
+  },
+  "HumusFormPhase": { "variable_type": "categorical", "summary": [] },
+  "pHMethodCodeMineral": { "variable_type": "categorical", "summary": [] },
+  "pHMethodCodeOrganic": { "variable_type": "categorical", "summary": [] },
+  "SoilNotes": {
+    "variable_type": "description",
+    "summary": [
+      "ON CARD: Drainage Class is blank;",
+      "ON CARD: Soil Classif and Drainage Class are blank; Humus Form = ?verimull;",
+      "No efferv.   ON CARD: Drainage Class is blank;",
+      "ON CARD: Drainage Class is blank",
+      "Good Bt, deep H.  ON CARD: Soil Classif = Luvisol; Terrain Classif = ?lacustrine; Humus Form = ?;",
+      "Ah horizons with lots of organic.  ON CARD: Soil Classif = ?Sombric brunisol; Humus Form is blank; Terrain Classif = ?F;",
+      "STRONG FIZZ THOUGHOUT",
+      "A silty soil with abundant roots in B horizon.  Water in soil but has been a wet spring, no mottles observed and soil not gleyed.  ON CARD: Terrain Classif = ?L;",
+      "PM=glaciofluvial/lacustrine"
+    ]
+  },
+  "VegSurveyor": {
+    "variable_type": "categorical",
+    "summary": {
+      "CLEMENT": 5,
+      "Coupe": 2,
+      "EE": 1,
+      "G.Kernaghan": 1,
+      "KI": 5,
+      "LM": 5,
+      "RC": 3
+    }
+  },
+  "StrataCoverTree": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 5,
+      "Median": 25,
+      "Mean": 24.4137931034483,
+      "3rd Qu.": 40,
+      "Max.": 58
+    }
+  },
+  "StrataCoverShrub": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 19,
+      "1st Qu.": 35,
+      "Median": 55,
+      "Mean": 53.1379310344828,
+      "3rd Qu.": 71,
+      "Max.": 85
+    }
+  },
+  "StrataCoverHerb": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 20,
+      "Median": 30,
+      "Mean": 40.4655172413793,
+      "3rd Qu.": 55,
+      "Max.": 99
+    }
+  },
+  "StrataCoverMoss": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 1.73448275862069,
+      "3rd Qu.": 0.5,
+      "Max.": 27
+    }
+  },
+  "VegNotes": {
+    "variable_type": "description",
+    "summary": [
+      "ON CARD: Care spp. - long yellow-green leaves = CAREX in DB",
+      "Edge Plants: Gali bor, Poa pra, Trag sp, Anem mul, Care pet, Tara off, Arct uva, Pens pro, Achi mil, Elym spi, Arte fri, Soli spa, Astr agr, Lith rud, Elym rep, Koel mac.  Dense cover of aspen leaves in stand.   ON CARD: Herb species listed for edge area (with grasslands);  Moss/Lichen Layer is blank.",
+      "lichens on logs only.   ON CARD: Moss/Lichen Layer is blank except for comment; Aste spp (no flowers) = ASTER in DB",
+      "ON CARD: Moss/Lichen Layer is blank",
+      "Pseu men and Juni sco just outside plot on NE side.  ON CARD: Moss/Lichen Layer is blank",
+      "ON CARD: Moss/Lichen layer is blank; Bromus ?inerm = BROMINE in DB",
+      "ON CARD: Carex? ric (no heads) = CARERIC in DB; ?Brachythecium sp. = BRACHYT in DB",
+      "ON CARD: Strata Coverages for Shrub, Herb and Moss/Lichen Layers are blank; Trag (nobladder) = TRAGPRA in DB",
+      "Amelaln browsed."
+    ]
+  },
+  "HydroGeoSystem": { "variable_type": "categorical", "summary": { "up": 1 } },
+  "HydroGeoSubSystem": { "variable_type": "categorical", "summary": [] },
+  "SV_CanopyComposition": { "variable_type": "categorical", "summary": [] }
+}

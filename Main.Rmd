@@ -85,7 +85,6 @@ Admin_Plot_data_for_level <- Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plo
 
 
 ```{r Create empty lookup function json files for each plot file }
-# This prints env variable names to a list. A JASON doc is then created manually 
 
 #reports_dir <- file.path("reports", level_name) 
 #if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
@@ -102,7 +101,7 @@ create_json_template <- function(plot_data_names, file_name) {
   
   names_list <- list()
   for (name in plot_data_names) {
-    names_list[[ name ]] <- list()
+    names_list[[ name ]] <- list(variableType="")
   }
   write(toJSON(names_list), file.path("lookup_functions", file_name))
 }
@@ -127,32 +126,80 @@ climate_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions
 admin_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
 ```
 
-```{r}
-roll_up_plot_data <- function(plot_data, lookup_function_list) {
+```{r Function to clean list data}
 
-  rolled_up_list <- list()
-  
-  for (variable_name in names(lookup_function_list)) {
-    
-    variable_summaries <- list()
-    
-    for (function_name in lookup_function_list[[variable_name]]) {
-    
-        variable_summaries[[function_name]] <- list(do.call(function_name, list(plot_data[[variable_name]])))
-    }
-    
-    rolled_up_list[[variable_name]] <- variable_summaries
-  }
-  
-  return(rolled_up_list)
+
+clean_list_element <- function(element) {
+  items <- as.list(trimws(el(strsplit(element, "/|,|;|-|\\+| AND | and |&|,"))))
+  return (items)
 }
 
-env_summary <- roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions)
-humas_summary <- roll_up_plot_data(Humus_Plot_data_for_level, humus_lookup_functions)
-mineral_summary <- roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions)
-climate_summary <- roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions)
-admin_summary <- roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions)
+clean_list_data <- function(df_column) {
+  l <- unlist(lapply(df_column, function(element) clean_list_element(element)))
+  return(l)
+}
+
+print(clean_list_data(c("O. Kanji, J. Doe", "A,B , C, D/E", "X/Y/Z", "z+x+y")))
+
+# coordinate - heat map of locations or mode
+# quantitiative - summary
+# catagorical - table
+
+
 ```
 
 
+```{r Roll up functions into pre report summaries}
+roll_up_plot_data <- function(plot_data, lookup_function_list) {
+
+  variable_summaries <- list()
+  
+  for (variable_name in names(lookup_function_list)) {
+      
+    
+    variable_type <- lookup_function_list[[variable_name]]$variableType
+    is_list <- lookup_function_list[[variable_name]]$isList
+    
+    #data <- list(plot_data[[variable_name]])
+    
+    if(!is.null(is_list) && is_list) {
+      data <- clean_list_data(plot_data[[variable_name]])
+    } else {
+      data <- trimws(plot_data[[variable_name]])
+                     
+    }
+ 
+    data <- data[!is.null(data)]
+    data <- data[data != ""]
+    data <- data[!is.na(data)]
+  
+    if(variable_type == "categorical") {
+      variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=table(data))
+    } else if(variable_type == "quantitative") {
+      variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=summary(as.numeric(data)))
+    } else if(variable_type == "coordinate") {
+      variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=unique(data))
+    } else {
+      variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=data)
+    }
+
+
+
+    #variable_summaries[[function_name]] <- list(do.call(function_name, list(plot_data[[variable_name]])))
+    
+    
+  }
+  
+  return(variable_summaries)
+}
+
+env_summary <- roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions)
+#print(env_summary)
+json_env_summary <- toJSON(env_summary)
+write(json_env_summary, "./summaries/json_env_summary.json")
+# humas_summary <- roll_up_plot_data(Humus_Plot_data_for_level, humus_lookup_functions)
+# mineral_summary <- roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions)
+# climate_summary <- roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions)
+# admin_summary <- roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions)
+```
 
