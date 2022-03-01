@@ -179,7 +179,7 @@ roll_up_plot_data <- function(plot_data, lookup_function_list) {
       variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=summary(as.numeric(data)))
     } else if(variable_type == "coordinate") {
       variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=unique(data))
-    } else {
+    } else if(variable_type == "description"){
       variable_summaries[[variable_name]] <- list(variable_type=variable_type, summary=data)
     }
 
