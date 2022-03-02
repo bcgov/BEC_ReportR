@@ -5,3 +5,4 @@ BEC_ReportR/*
 *.accdb
 
 .Rproj.user
+.DS_Store

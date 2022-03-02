@@ -11,6 +11,10 @@ require(indicspecies)
 require(doParallel)
 require(philentropy)
 require(dplyr)
+source("./_functions/_TabletoTree.R")
+source("./_functions/_TreetoTable.R")
+source("./_functions/_VegdatSUsummary.R")
+source("./_functions/_spp_importance.R")
 
 CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   cloud_dir <- "F:/OneDrive - Personal/OneDrive/BEC_Classification_Paper/"
@@ -34,6 +38,8 @@ CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   SUTab$SiteUnit <-  trimws(SUTab$SiteUnit)
   SS.names <- unique(SUTab$SiteUnit)
   
+ 
+  
   vegdat_test <- left_join(SUTab, vegDat2)
   # #####list of official current and future correlated units from BECdb
   # current <- c('Current', 'Future')
@@ -53,6 +59,7 @@ CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   ### Filter out all species but tree species
   vegSum <- VegdatSUsummary(vegDat2, SUTab)
   vegSum2 <- spp_importance(vegSum) 
+  
   
   #vegDat_test <- vegSum %>% dplyr::filter(MeanCov > covercut) %>% dplyr::filter(Constancy > covercut) ## remove rare or very low cover species in SU
   # 
@@ -81,7 +88,6 @@ CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   tree.sum <- as.data.table(vegDat_test)#vegDat <- as_tibble(vegDat)
   tree.sum$SiteUnit <- as.factor(tree.sum$SiteUnit)
   
-  
   #fwrite(tree.sum, './inputs/SiteUnitConiferSummary.csv')
   
   
@@ -98,6 +104,7 @@ CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   
   #Vpro.hier <- fread("./inputs/BECv13Hierarchy_v1_22Sept2021_Hierarchy.csv")
   SUhier <- treeToTable(Vpro.hier)
+  
   Hier.clean <- SUhier$table
   
   
@@ -124,7 +131,7 @@ CodeUsingTreeFunctions <- function(vegDat2, taxon.all, SUTab, Vpro.hier) {
   suborders
   ### Choose hierarchical level for analysis
   
- 
+  
   return(Hier.data)
 }
 

@@ -1,4 +1,4 @@
-createHierReportData <- function(level_name, level_value, SUTab) {
+createHierReportData <- function(level_name, level_value, SUTab, Hier.data) {
   
   
   # Select relevent rows from Heir.data
@@ -41,17 +41,23 @@ createHierReportData <- function(level_name, level_value, SUTab) {
   
   file_name <- paste(str_replace_all(level_value, " ", "_"), ".RDS",  sep="")
   saveRDS(heir_summary, file = file.path(reports_dir, file_name))
+  heir_summary_file_path <- file.path(reports_dir, file_name)
 
   plot_numbers_dir <- file.path("plotNumbers", level_name) 
   if (!dir.exists(plot_numbers_dir)) dir.create(plot_numbers_dir, recursive = TRUE)
   
   plot_numbers_in_level <- list(SUTab$PlotNumber[SUTab$SiteUnit %in% site_units]) 
   saveRDS(plot_numbers_in_level, file =(paste(plot_numbers_dir, "/", "plot_numbers_in_" , str_replace_all(level_value, " ", "_"), ".RDS", sep=""))) 
+  plot_numbers_in_level_file_path <- paste(plot_numbers_dir, "/", "plot_numbers_in_" , str_replace_all(level_value, " ", "_"), ".RDS", sep="")
   
   # Save plot numbers 
   # if (!file.exists(paste(dir, "/", "plot_numbers_in_", level_value, ".RDS", sep=""))) {
   #   plot_numbers_in_level <- list(SUTab$PlotNumber[SUTab$SiteUnit %in% site_units]) 
   #   saveRDS(plot_numbers_in_level, file =(paste("plot_numbers_in_" , level_value, ".RDS", sep=""))) 
   # }  
+  
+  #return(list(heir_summary=heir_summary_file_path, plot_numbers_in_level=plot_numbers_in_level_file_path))
+  return(plot_numbers_in_level_file_path)
+  
   
 }

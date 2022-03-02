@@ -120,10 +120,10 @@ create_json_template(names(Admin_Plot_data), "admin_lookup_functions.json")
 
 ```{r Read lookup functions}
 env_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
-humus_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
-mineral_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
-climate_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
-admin_lookup_functions <- fromJSON(file="lookup_functions/env_lookup_functions.json")
+humus_lookup_functions <- fromJSON(file="lookup_functions/humus_lookup_functions.json")
+mineral_lookup_functions <- fromJSON(file="lookup_functions/mineral_lookup_functions.json")
+climate_lookup_functions <- fromJSON(file="lookup_functions/climate_lookup_functions.json")
+admin_lookup_functions <- fromJSON(file="lookup_functions/admin_lookup_functions.json")
 ```
 
 ```{r Function to clean list data}

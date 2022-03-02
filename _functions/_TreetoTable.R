@@ -1,4 +1,3 @@
-
 treeToTable <- function(SUhier){
   hierLookup <- SUhier[,.(ID,Name)]
   HierClean <- SUhier[,.(ID,Parent,Name,Level)]
