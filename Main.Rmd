@@ -91,7 +91,7 @@ Admin_Plot_data_for_level <- Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plo
 
 library(rjson)
 
-create_json_template <- function(plot_data_names, file_name) {
+create_json_template <- function(plot_data_names, file_name, default_variable_type="") {
   
   if (!dir.exists("lookup_functions")) {
     dir.create("lookup_functions")
@@ -101,19 +101,22 @@ create_json_template <- function(plot_data_names, file_name) {
   
   names_list <- list()
   for (name in plot_data_names) {
-    names_list[[ name ]] <- list(variableType="")
+    names_list[[ name ]] <- list(variableType=default_variable_type)
   }
   write(toJSON(names_list), file.path("lookup_functions", file_name))
 }
 
 
+
+# Note: The functions need to be manually filled out in the json file
+
+```
+```{r}
 create_json_template(names(ENV_Plot_data), "env_lookup_functions.json")
 create_json_template(names(Humus_Plot_data), "humus_lookup_functions.json")
 create_json_template(names(Mineral_Plot_data), "mineral_lookup_functions.json")
-create_json_template(names(Climate_Plot_data), "climate_lookup_functions.json")
+create_json_template(names(Climate_Plot_data), "climate_lookup_functions.json", "quantitative")
 create_json_template(names(Admin_Plot_data), "admin_lookup_functions.json")
-
-# Note: The functions need to be manually filled out in the json file
 
 ```
 

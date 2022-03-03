@@ -1,1 +1,22 @@
-{"Plot":{"variableType":""},"StartDate":{"variableType":""},"PlotType":{"variableType":""},"PlotSize":{"variableType":""},"ProvinceStateTerritory":{"variableType":""},"SitePlotQuality":{"variableType":""},"VegPlotQuality":{"variableType":""},"SoilPlotQuality":{"variableType":""},"UpdatedFromCards":{"variableType":""},"EnteredBy":{"variableType":""},"UserSiteUnit":{"variableType":""},"BECSiteUnit":{"variableType":""},"SiteUnitShortName":{"variableType":""},"SiteUnitLongName":{"variableType":""},"OfficeNotes":{"variableType":""},"HumusThickness":{"variableType":""},"GIS_BGC":{"variableType":""},"GIS_BGC_VER":{"variableType":""},"BEC_Use":{"variableType":""},"StrataCoverTotal":{"variableType":""}}
+{
+  "Plot": { "variableType": "" },
+  "StartDate": { "variableType": "Date" },
+  "PlotType": { "variableType": "" },
+  "PlotSize": { "variableType": "" },
+  "ProvinceStateTerritory": { "variableType": "" },
+  "SitePlotQuality": { "variableType": "categorical" },
+  "VegPlotQuality": { "variableType": "categorical" },
+  "SoilPlotQuality": { "variableType": "categorical" },
+  "UpdatedFromCards": { "variableType": "bool" },
+  "EnteredBy": { "variableType": "" },
+  "UserSiteUnit": { "variableType": "categorical" },
+  "BECSiteUnit": { "variableType": "categorical" },
+  "SiteUnitShortName": { "variableType": "categorical" },
+  "SiteUnitLongName": { "variableType": "categorical" },
+  "OfficeNotes": { "variableType": "description" },
+  "HumusThickness": { "variableType": "quantitative" },
+  "GIS_BGC": { "variableType": "categorical" },
+  "GIS_BGC_VER": { "variableType": "quantitative" },
+  "BEC_Use": { "variableType": "" },
+  "StrataCoverTotal": { "variableType": "" }
+}

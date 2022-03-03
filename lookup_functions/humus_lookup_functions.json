@@ -1,1 +1,20 @@
-{"PlotNumber":{"variableType":""},"Horizon":{"variableType":""},"UpperDepth":{"variableType":""},"LowerDepth":{"variableType":""},"HumusStructureDegree":{"variableType":""},"HumusStructureKind":{"variableType":""},"MycelAbundance":{"variableType":""},"FecalAbundance":{"variableType":""},"RootsAbundance":{"variableType":""},"RootsSize":{"variableType":""},"vonPost":{"variableType":""},"HumusFormpH":{"variableType":""},"Consistence":{"variableType":""},"Character":{"variableType":""},"Fauna":{"variableType":""},"Comment":{"variableType":""},"Flag":{"variableType":""},"ID":{"variableType":""}}
+{
+  "PlotNumber": { "variableType": "" },
+  "Horizon": { "variableType": "categorical" },
+  "UpperDepth": { "variableType": "quantitative" },
+  "LowerDepth": { "variableType": "quantitative" },
+  "HumusStructureDegree": { "variableType": "categorical" },
+  "HumusStructureKind": { "variableType": "categorical" },
+  "MycelAbundance": { "variableType": "categorical" },
+  "FecalAbundance": { "variableType": "categorical" },
+  "RootsAbundance": { "variableType": "categorical", "isList": true },
+  "RootsSize": { "variableType": "categorical", "isList": true},
+  "vonPost": { "variableType": "categorical" },
+  "HumusFormpH": { "variableType": "quantitative" },
+  "Consistence": { "variableType": "" },
+  "Character": { "variableType": "" },
+  "Fauna": { "variableType": "" },
+  "Comment": { "variableType": "description" },
+  "Flag": { "variableType": "" },
+  "ID": { "variableType": "" }
+}

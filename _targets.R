@@ -7,6 +7,9 @@ level.name <- "Order"
 level.value <- "ORDER Poputre"
 
 list(
+  ###########################
+  ### Set level variables ###
+  ###########################
   tar_target(
     level_name,
     level.name
@@ -15,6 +18,9 @@ list(
     level_value,
     level.value
   ),
+  ####################################################################################
+  ### Read Various files required to generate Hier.data and  plot_numbers_in_level ###
+  ####################################################################################
   tar_target(
     vegDat2,
     fread("./BEC_ReportR/Plot_Data/BECMaster_VegR_clean.csv", data.table = FALSE)
@@ -31,10 +37,16 @@ list(
     Vpro.hier,
     fread("./BEC_ReportR/Classification_tables/BECv13_ForestHierarchy_v2_26Sept2021_Hierarchy.csv")
   ),
+  ###############################
+  ### Generate Hierarchy data ###
+  ###############################
   tar_target(
     Hier.data,
     CodeUsingTreeFunctions(vegDat2, taxon.all, SUTab, Vpro.hier)
   ),
+  ############################################
+  ### Generate Plot numbers in level data ###
+  ############################################
   tar_target(
     plot_numbers_in_level_file_path,
     createHierReportData(level_name, level_value, SUTab, Hier.data),
@@ -57,7 +69,7 @@ list(
     fread("./BEC_ReportR/Plot_Data/BECMaster19_Mineral.csv")
   ),
   tar_target(
-    Climate_Plot_data, fread("./BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.csv")
+    Climate_Plot_data, fread("./BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.csv") %>% filter(!Latitude == 0)
   ),
   tar_target(
     Admin_Plot_data, fread("./BEC_ReportR/Plot_Data/BECMaster19_Admin.csv")
@@ -82,6 +94,9 @@ list(
     Admin_Plot_data_for_level,
     Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_in_level]
   ),
+  ##################################
+  ### Read lookup function Files ###
+  ################################## 
   tar_target(
     env_lookup_functions,
     fromJSON(file="lookup_functions/env_lookup_functions.json")
@@ -102,6 +117,12 @@ list(
     admin_lookup_functions,
     fromJSON(file="lookup_functions/admin_lookup_functions.json")
   ),
+  
+  ############################
+  ### Create Summary Files ###
+  ############################
+  
+  # Create env data summary
   tar_target(
     rolled_up_env_data_file_path,
     roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions, level_name, level_value),
@@ -111,5 +132,45 @@ list(
     env_summary,
     fromJSON(file=rolled_up_env_data_file_path)
   ),
+  # Create admin data summary
+  tar_target(
+    rolled_up_admin_data_file_path,
+    roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions, level_name, level_value),
+    format = "file"
+  ),
+  tar_target(
+    admin_summary,
+    fromJSON(file=rolled_up_admin_data_file_path)
+  ),
+  # Create climate data summary
+  tar_target(
+    rolled_up_climate_data_file_path,
+    roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions, level_name, level_value),
+    format = "file"
+  ),
+  tar_target(
+    climate_summary,
+    fromJSON(file=rolled_up_climate_data_file_path)
+  ),
+  # Create humas data summary
+  tar_target(
+    rolled_up_humas_data_file_path,
+    roll_up_plot_data(Humas_Plot_data_for_level, humas_lookup_functions, level_name, level_value),
+    format = "file"
+  ),
+  tar_target(
+    climate_summary,
+    fromJSON(file=rolled_up_climate_data_file_path)
+  ),
+  # Create mineral data summary
+  tar_target(
+    rolled_up_humas_data_file_path,
+    roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions, level_name, level_value),
+    format = "file"
+  ),
+  tar_target(
+    humas_summary,
+    fromJSON(file=rolled_up_humas_data_file_path)
+  )
 )
 
