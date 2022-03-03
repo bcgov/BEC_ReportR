@@ -54,7 +54,7 @@ list(
   ),
   tar_target(
     plot_numbers_in_level,
-    readRDS(file.path(plot_numbers_in_level_file_path))[[1]]
+    readRDS(file.path(plot_numbers_in_level_file_path))
   ),
   tar_target(
     ENV_Plot_data,
@@ -125,7 +125,7 @@ list(
   # Create env data summary
   tar_target(
     rolled_up_env_data_file_path,
-    roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions, level_name, level_value),
+    roll_up_plot_data(ENV_Plot_data_for_level, env_lookup_functions, "env", level_name, level_value),
     format = "file"
   ),
   tar_target(
@@ -135,7 +135,7 @@ list(
   # Create admin data summary
   tar_target(
     rolled_up_admin_data_file_path,
-    roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions, level_name, level_value),
+    roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions, "admin", level_name, level_value),
     format = "file"
   ),
   tar_target(
@@ -145,32 +145,32 @@ list(
   # Create climate data summary
   tar_target(
     rolled_up_climate_data_file_path,
-    roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions, level_name, level_value),
+    roll_up_plot_data(Climate_Plot_data_for_level, climate_lookup_functions, "climate", level_name, level_value),
     format = "file"
   ),
   tar_target(
     climate_summary,
     fromJSON(file=rolled_up_climate_data_file_path)
   ),
-  # Create humas data summary
+  # Create humus data summary
   tar_target(
-    rolled_up_humas_data_file_path,
-    roll_up_plot_data(Humas_Plot_data_for_level, humas_lookup_functions, level_name, level_value),
+    rolled_up_humus_data_file_path,
+    roll_up_plot_data(Humus_Plot_data_for_level, humus_lookup_functions, "humas", level_name, level_value),
     format = "file"
   ),
   tar_target(
-    climate_summary,
-    fromJSON(file=rolled_up_climate_data_file_path)
+    humus_summary,
+    fromJSON(file=rolled_up_humus_data_file_path)
   ),
   # Create mineral data summary
   tar_target(
-    rolled_up_humas_data_file_path,
-    roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions, level_name, level_value),
+    rolled_up_mineral_data_file_path,
+    roll_up_plot_data(Mineral_Plot_data_for_level, mineral_lookup_functions, "mineral", level_name, level_value),
     format = "file"
   ),
   tar_target(
-    humas_summary,
-    fromJSON(file=rolled_up_humas_data_file_path)
+    mineral_summary,
+    fromJSON(file=rolled_up_mineral_data_file_path)
   )
 )
 

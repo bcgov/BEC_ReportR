@@ -1,0 +1,84 @@
+{
+  "Horizon": {
+    "variable_type": "categorical",
+    "summary": { "F": 9, "FH": 1, "H": 4, "L": 13, "L(F)": 1 }
+  },
+  "UpperDepth": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 1.5,
+      "Median": 3,
+      "Mean": 3.76785714285714,
+      "3rd Qu.": 4,
+      "Max.": 13
+    }
+  },
+  "LowerDepth": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0.5,
+      "Mean": 1.875,
+      "3rd Qu.": 2,
+      "Max.": 11
+    }
+  },
+  "HumusStructureDegree": { "variable_type": "categorical", "summary": [] },
+  "HumusStructureKind": {
+    "variable_type": "categorical",
+    "summary": { "NM": 1, "SP": 1 }
+  },
+  "MycelAbundance": { "variable_type": "categorical", "summary": { "X": 2 } },
+  "FecalAbundance": {
+    "variable_type": "categorical",
+    "summary": { "C": 1, "X": 2 }
+  },
+  "RootsAbundance": {
+    "variable_type": "categorical",
+    "summary": { "N": 1, "P": 3 }
+  },
+  "RootsSize": {
+    "variable_type": "categorical",
+    "summary": { "F": 1, "M": 1, "VF": 1 }
+  },
+  "vonPost": { "variable_type": "categorical", "summary": [] },
+  "HumusFormpH": {
+    "variable_type": "quantitative",
+    "summary": {
+      "Min.": 0,
+      "1st Qu.": 0,
+      "Median": 0,
+      "Mean": 0,
+      "3rd Qu.": 0,
+      "Max.": 0
+    }
+  },
+  "Comment": {
+    "variable_type": "description",
+    "summary": [
+      "Very thin and discontinious",
+      ";  Consist: LO;  Char: LF",
+      "well decomposed",
+      "ON CARD: Depth = 0-0.5",
+      "loose, granular, with some mineral mix",
+      "loose friable.  ON CARD: Depth = 1-3",
+      "ON CARD: Depth = 0-3",
+      "Aspen leaves",
+      "Loose, mostly At leaves and grass",
+      "dried leaf litter, abruptly grading into Ah",
+      ";  Consist: PL;  Char: Fi",
+      "leaves",
+      "ON CARD: Roots AB = M",
+      "matted with fine roots",
+      "decid. leaf",
+      "Matted by fine roots.  ON CARD: Fecal AB = M",
+      "leaf fragments",
+      "decid. leaf",
+      "ON CARD: Depth = 0-1",
+      "ON CARD: Depth = 0.5-1",
+      "SPARSE PATCHES OF VERY THIN  LITTER"
+    ]
+  }
+}
