@@ -206,3 +206,11 @@ write(json_env_summary, "./summaries/json_env_summary.json")
 # admin_summary <- roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions)
 ```
 
+```{r Create Veg report}
+
+create_veg_report_data <- function(VegR_by_plot_numbers_in_level, species_data_by_plot_number) {
+  
+}
+
+```
+

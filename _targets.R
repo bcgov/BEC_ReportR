@@ -6,6 +6,14 @@ sapply(paste("_functions/", files.sources, sep=""), source)
 level.name <- "Order"
 level.value <- "ORDER Poputre"
 
+level_name_dir <- file.path("level", level.name) 
+if (!dir.exists(level_name_dir)) dir.create(level_name_dir, recursive = TRUE)
+
+level_value_dir <- file.path(level_name_dir, level.value) 
+if (!dir.exists(level_value_dir)) dir.create(level_value_dir, recursive = TRUE)
+
+setwd(level_value_dir)
+
 list(
   ###########################
   ### Set level variables ###
@@ -23,19 +31,19 @@ list(
   ####################################################################################
   tar_target(
     vegDat2,
-    fread("./BEC_ReportR/Plot_Data/BECMaster_VegR_clean.csv", data.table = FALSE)
+    fread("../../../BEC_ReportR/Plot_Data/BECMaster_VegR_clean.csv", data.table = FALSE)
   ),
   tar_target(
     taxon.all,
-    fread("./BEC_ReportR/LookUp_tables/SpeciesMaster01Dec2020.csv", header = T, stringsAsFactors = F, strip.white = T) %>% filter(Codetype == "U")
+    fread("../../../BEC_ReportR/LookUp_tables/SpeciesMaster01Dec2020.csv", header = T, stringsAsFactors = F, strip.white = T) %>% filter(Codetype == "U")
   ),
   tar_target(
     SUTab,
-    fread("./BEC_ReportR/Classification_tables/ALLBECSU_2021_SU.csv")
+    fread("../../../BEC_ReportR/Classification_tables/ALLBECSU_2021_SU.csv")
   ),
   tar_target(
     Vpro.hier,
-    fread("./BEC_ReportR/Classification_tables/BECv13_ForestHierarchy_v2_26Sept2021_Hierarchy.csv")
+    fread("../../../BEC_ReportR/Classification_tables/BECv13_ForestHierarchy_v2_26Sept2021_Hierarchy.csv")
   ),
   ###############################
   ### Generate Hierarchy data ###
@@ -56,24 +64,33 @@ list(
     plot_numbers_in_level,
     readRDS(file.path(plot_numbers_in_level_file_path))
   ),
+  ############################
+  ### Read BECmaster files ###
+  ############################
   tar_target(
     ENV_Plot_data,
-    fread("./BEC_ReportR/Plot_Data/BECMaster19_ENV.csv")
+    fread("../../../BEC_ReportR/Plot_Data/BECMaster19_ENV.csv")
   ),
   tar_target(
     Humus_Plot_data,
-    fread("./BEC_ReportR/Plot_Data/BECMaster19_Humus.csv")
+    fread("../../../BEC_ReportR/Plot_Data/BECMaster19_Humus.csv")
   ),
   tar_target(
     Mineral_Plot_data,
-    fread("./BEC_ReportR/Plot_Data/BECMaster19_Mineral.csv")
+    fread("../../../BEC_ReportR/Plot_Data/BECMaster19_Mineral.csv")
   ),
   tar_target(
-    Climate_Plot_data, fread("./BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.csv") %>% filter(!Latitude == 0)
+    Climate_Plot_data, fread("../../../BEC_ReportR/Plot_Data/BECMaster_Plot_Climatedata.csv") %>% filter(!Latitude == 0)
   ),
   tar_target(
-    Admin_Plot_data, fread("./BEC_ReportR/Plot_Data/BECMaster19_Admin.csv")
+    Admin_Plot_data, fread("../../../BEC_ReportR/Plot_Data/BECMaster19_Admin.csv")
   ),
+  tar_target(
+   Veg_Plot_data, fread("../../../BEC_ReportR/Plot_Data/BECMaster19_Veg.csv")
+  ),
+  #################################################
+  ### Generate Plot data for level in BECmaster ###
+  #################################################
   tar_target(
     ENV_Plot_data_for_level,
     ENV_Plot_data[ENV_Plot_data$PlotNumber %in% plot_numbers_in_level]
@@ -94,28 +111,36 @@ list(
     Admin_Plot_data_for_level,
     Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_in_level]
   ),
+  tar_target(
+    Veg_Plot_data_for_level,
+    Veg_Plot_data[Veg_Plot_data$PlotNumber %in% plot_numbers_in_level]
+  ),
+  tar_target(
+    VegDat2_data_for_level,
+    vegDat2[vegDat2$PlotNumber %in% plot_numbers_in_level,]
+  ),
   ##################################
   ### Read lookup function Files ###
   ################################## 
   tar_target(
     env_lookup_functions,
-    fromJSON(file="lookup_functions/env_lookup_functions.json")
+    fromJSON(file="../../../lookup_functions/env_lookup_functions.json")
   ),
   tar_target(
     humus_lookup_functions,
-    fromJSON(file="lookup_functions/humus_lookup_functions.json"),
+    fromJSON(file="../../../lookup_functions/humus_lookup_functions.json"),
   ),
   tar_target(
     mineral_lookup_functions,
-    fromJSON(file="lookup_functions/mineral_lookup_functions.json")
+    fromJSON(file="../../../lookup_functions/mineral_lookup_functions.json")
   ),
   tar_target(
     climate_lookup_functions,
-    fromJSON(file="lookup_functions/climate_lookup_functions.json")
+    fromJSON(file="../../../lookup_functions/climate_lookup_functions.json")
   ),
   tar_target(
     admin_lookup_functions,
-    fromJSON(file="lookup_functions/admin_lookup_functions.json")
+    fromJSON(file="../../../lookup_functions/admin_lookup_functions.json")
   ),
   
   ############################
@@ -171,6 +196,113 @@ list(
   tar_target(
     mineral_summary,
     fromJSON(file=rolled_up_mineral_data_file_path)
+  ),
+  #########################
+  ### Create Veg Report ###
+  #########################
+
+  ### TREE LAYER ###
+  tar_target(
+    Tree_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalA > 0],
+  ),
+  tar_target(
+    Tree_layer_constantcy,
+    generate_constantcy(Tree_layer_data$Species),
+  ),
+  tar_target(
+    Tree_layer_VegDat2_data,
+    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Tree_layer_data$Species,]
+  ),
+  tar_target(
+    Tree_layer_mean_cover,
+    generate_mean_cover(Tree_layer_VegDat2_data)
+  ),
+  tar_target(
+    Tree_layer_taxon.all_data,
+    taxon.all[taxon.all$Code %in% Tree_layer_data$Species,]
+  ),
+  tar_target(
+    Tree_layer_table_data,
+    generateVegLayerTableDataFrame(Tree_layer_constantcy, Tree_layer_mean_cover, Tree_layer_taxon.all_data, "Tree_Layer")
+  ),
+  
+  ### SHRUB LAYER ###
+  tar_target(
+    Shrub_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalB > 0],
+  ),
+  tar_target(
+    Shrub_layer_constantcy,
+    generate_constantcy(Shrub_layer_data$Species),
+  ),
+  tar_target(
+    Shrub_layer_VegDat2_data,
+    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Shrub_layer_data$Species,]
+  ),
+  tar_target(
+    Shrub_layer_mean_cover,
+    generate_mean_cover(Shrub_layer_VegDat2_data)
+  ),
+  tar_target(
+    Shrub_layer_taxon.all_data,
+    taxon.all[taxon.all$Code %in% Shrub_layer_data$Species,]
+  ),
+  tar_target(
+    Shrub_layer_table_data,
+    generateVegLayerTableDataFrame(Shrub_layer_constantcy, Shrub_layer_mean_cover, Shrub_layer_taxon.all_data, "Shrub_Layer")
+  ),
+  
+  ### HERB LAYER ###
+  tar_target(
+    Herb_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover6 > 0],
+  ),
+  tar_target(
+    Herb_layer_constantcy,
+    generate_constantcy(Herb_layer_data$Species),
+  ),
+  tar_target(
+    Herb_layer_VegDat2_data,
+    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Herb_layer_data$Species,]
+  ),
+  tar_target(
+    Herb_layer_mean_cover,
+    generate_mean_cover(Herb_layer_VegDat2_data)
+  ),
+  tar_target(
+    Herb_layer_taxon.all_data,
+    taxon.all[taxon.all$Code %in% Herb_layer_data$Species,]
+  ),
+  tar_target(
+    Herb_layer_table_data,
+    generateVegLayerTableDataFrame(Herb_layer_constantcy, Herb_layer_mean_cover, Herb_layer_taxon.all_data, "Herb_Layer")
+  ),
+  
+  ### MOSS LAYER ###
+  tar_target(
+    Moss_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover7 > 0],
+  ),
+  tar_target(
+    Moss_layer_constantcy,
+    generate_constantcy(Moss_layer_data$Species),
+  ),
+  tar_target(
+    Moss_layer_VegDat2_data,
+    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Moss_layer_data$Species,]
+  ),
+  tar_target(
+    Moss_layer_mean_cover,
+    generate_mean_cover(Moss_layer_VegDat2_data)
+  ),
+  tar_target(
+    Moss_layer_taxon.all_data,
+    taxon.all[taxon.all$Code %in% Moss_layer_data$Species,]
+  ),
+  tar_target(
+    Moss_layer_table_data,
+    generateVegLayerTableDataFrame(Moss_layer_constantcy, Moss_layer_mean_cover, Moss_layer_taxon.all_data, "Moss_Layer")
   )
 )
 

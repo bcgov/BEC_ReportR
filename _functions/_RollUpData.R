@@ -12,8 +12,7 @@ clean_list_data <- function(df_column) {
 
 roll_up_plot_data <- function(plot_data, lookup_function_list, becmaster_name, level_name, level_value) {
   
-  print("*** PLOT DATA ***")
-  print(plot_data)
+
   variable_summaries <- list()
   
   for (variable_name in names(lookup_function_list)) {
@@ -55,7 +54,6 @@ roll_up_plot_data <- function(plot_data, lookup_function_list, becmaster_name, l
   file_path <-  file.path(reports_dir, paste(str_replace_all(level_value, " ", "_"), ".JSON",  sep=""))
   write(toJSON(variable_summaries), file_path)
   
-  print(file_path)
-  
+
   return(file_path)
 }

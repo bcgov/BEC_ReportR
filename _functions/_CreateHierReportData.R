@@ -28,36 +28,14 @@ createHierReportData <- function(level_name, level_value, SUTab, Hier.data) {
   heir_summary[["average_constancy"]] <- mean(constancy)
   heir_summary[["total_number_of_plots"]] <- sum(number_of_plots)
   
-  
-  # Maybe return plot_numbers_in_level (or write it) and do below in a different step
- 
-   
-  # Look up plots
-  # heir_summary[[paste("plot_numbers_in_", level_name, sep="")]] <- list(SUTab$PlotNumber[SUTab$SiteUnit %in% site_units]) 
- 
-  # Save heir report
-  reports_dir <- file.path("reports", level_name) 
-  if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
-  
-  file_name <- paste(str_replace_all(level_value, " ", "_"), ".RDS",  sep="")
-  saveRDS(heir_summary, file = file.path(reports_dir, file_name))
-  heir_summary_file_path <- file.path(reports_dir, file_name)
-
-  plot_numbers_dir <- file.path("plotNumbers", level_name) 
-  if (!dir.exists(plot_numbers_dir)) dir.create(plot_numbers_dir, recursive = TRUE)
-  
   plot_numbers_in_level <- SUTab$PlotNumber[SUTab$SiteUnit %in% site_units]
-  saveRDS(plot_numbers_in_level, file =(paste(plot_numbers_dir, "/", "plot_numbers_in_" , str_replace_all(level_value, " ", "_"), ".RDS", sep=""))) 
-  plot_numbers_in_level_file_path <- paste(plot_numbers_dir, "/", "plot_numbers_in_" , str_replace_all(level_value, " ", "_"), ".RDS", sep="")
+
+  plot_numbers_in_level_file_path <- paste("plot_numbers_in_" , str_replace_all(level_value, " ", "_"), ".RDS", sep="")
+  heir_summary_file_path <- paste("heir_summary_" , str_replace_all(level_value, " ", "_"), ".RDS", sep="")
   
-  # Save plot numbers 
-  # if (!file.exists(paste(dir, "/", "plot_numbers_in_", level_value, ".RDS", sep=""))) {
-  #   plot_numbers_in_level <- list(SUTab$PlotNumber[SUTab$SiteUnit %in% site_units]) 
-  #   saveRDS(plot_numbers_in_level, file =(paste("plot_numbers_in_" , level_value, ".RDS", sep=""))) 
-  # }  
-  print(" PLOT NUMBERS IN LEVEL ")
-  print(plot_numbers_in_level)
-  #return(list(heir_summary=heir_summary_file_path, plot_numbers_in_level=plot_numbers_in_level_file_path))
+  saveRDS(plot_numbers_in_level, file=plot_numbers_in_level_file_path) 
+  saveRDS(heir_summary, file=)
+  
   return(plot_numbers_in_level_file_path)
   
   
