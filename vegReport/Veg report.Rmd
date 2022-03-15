@@ -1,5 +1,5 @@
 ---
-title: "Biogeoclimatic ecosystem"
+title: "Biogeoclimatic Ecosystem Classification"
 output:
   html_document:
     code_folding: hide
@@ -11,6 +11,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 require(kableExtra)
 require(data.table)
+library(stringr)
+library(ggraph)
+library(igraph)
+library(tidyverse)
+library(rgdal)
+library(broom)
 ```
 
 
@@ -36,19 +42,16 @@ plot_numbers_with_site_unit <- SUTab$PlotNumber[SUTab$SiteUnit == site_unit]
 print(plot_numbers_with_site_unit)
 
 ```
+<div class="header">
+  <span class="emphasized">`r level_name` `r level_value` </span>
+  <span class="emphasized">`r site_unit` </span>
+</div>
 
-<span class="emphasized">`r level_name`        `r level_value` </span>
-
-```{r}
-test_df <- read.csv(file="../level/Order/ORDER Poputre/veg_reports/Herb_Layer_BGxw2_115_.csv")
-```
 
 
 ```{r, echo=FALSE}
 reports_dir <- "veg_reports"
 csv_file_path <- function(layer_name, site_unit) file.path(reports_dir, paste(layer_name, str_replace(str_remove_all(site_unit, " "), "/", "_"), ".csv", sep="_"))
-
-
 
 
 df_herb <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Herb_Layer", site_unit)))
@@ -78,8 +81,8 @@ kbl(df, col.names = c("Layer", "Scientific Name", "Constantcy", "Mean Cover", "E
   row_spec(len_tree + len_shrub, extra_css = "border-bottom: 1px solid") %>%
   row_spec(len_tree + len_shrub + len_herb, extra_css = "border-bottom: 1px solid")
 ```
-
-```{r}
+# Edatopic Grid
+```{r, echo=FALSE}
 library("ggplot2")
 
 df=data.frame(x1=c(1), x2=c(3.5), y1=c(5), y2=c(2), colour=c('green'), r=c(1))
@@ -105,5 +108,44 @@ theme(
   axis.text.y = element_text(face="bold", size=10, vjust=2.75),
   axis.title = element_text(face="bold") 
  )
+```
+
+```{r, echo=FALSE}
+
+level_names <- c("Classes", "Orders", "SubOrder", "Alliannces", "Associations")
+level_labels <- unlist(c(hier_summary$Classes, hier_summary$Orders, hier_summary$SubOrder, hier_summary$Alliances, hier_summary$Associations)) 
+level_labels <- level_labels[!is.na(level_labels)]
+
+d1 <- data.frame(from=hier_summary$Classes, to=hier_summary$Orders)
+d2 <- data.frame(from=d1$to, to=hier_summary$SubOrder)
+d3 <- data.frame(from=d2$to, to=hier_summary$Alliances)
+d4 <- data.frame(from=d3$to, to=hier_summary$Associations)
+edges <- drop_na(rbind(d1, d2, d3, d4))
+
+ 
+# Create a graph object 
+mygraph <- graph_from_data_frame( edges )
+ 
+# Basic tree
+ggraph(mygraph, layout = 'dendrogram', circular = FALSE) + 
+  geom_edge_diagonal() +
+  geom_node_point() +
+  geom_node_label(aes(label = level_labels), repel = TRUE) +
+  theme_void()
+```
+
+```{r, echo=FALSE}
+my_spdf <- readOGR(dsn= paste0("../BEC_ReportR/Spatial_files"), verbose=FALSE)
+```
+## Map
+
+```{r, echo=FALSE}
+spdf_fortified <- tidy(my_spdf)
+
+# Plot it
+library(ggplot2)
+ggplot() +
+  geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="#69b3a2", color="white") +
+  theme_void() 
 ```
 

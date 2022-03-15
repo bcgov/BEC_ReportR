@@ -2,5 +2,11 @@
     color: grey;
     font-weight: bold;
     font-size: 20px;
-
+ }
+ 
+ .header {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+   
  }
