@@ -5,6 +5,7 @@ sapply(paste("_functions/", files.sources, sep=""), source)
 
 level.name <- "Order"
 level.value <- "ORDER Poputre"
+site.unit <- "IDF xm   /10"
 
 level_name_dir <- file.path("level", level.name) 
 if (!dir.exists(level_name_dir)) dir.create(level_name_dir, recursive = TRUE)
@@ -26,9 +27,13 @@ list(
     level_value,
     level.value
   ),
-  ####################################################################################
-  ### Read Various files required to generate Hier.data and  plot_numbers_in_level ###
-  ####################################################################################
+  tar_target(
+    site_unit,
+    site.unit
+  ),
+  ###################################################################################################
+  ### Read Various files required to generate Hier.data and  plot_numbers_and_site_units_in_level ###
+  ###################################################################################################
   tar_target(
     vegDat2,
     fread("../../../BEC_ReportR/Plot_Data/BECMaster_VegR_clean.csv", data.table = FALSE)
@@ -56,13 +61,18 @@ list(
   ### Generate Plot numbers in level data ###
   ############################################
   tar_target(
-    plot_numbers_in_level_file_path,
+    file_paths_plot_numbers_and_heir_summary,
     createHierReportData(level_name, level_value, SUTab, Hier.data),
     format = "file"
   ),
+  
   tar_target(
-    plot_numbers_in_level,
-    readRDS(file.path(plot_numbers_in_level_file_path))
+    plot_numbers_and_site_units_in_level,
+    readRDS(file.path(file_paths_plot_numbers_and_heir_summary[[1]]))
+  ),
+  tar_target(
+    hier_summary,
+    readRDS(file.path(file_paths_plot_numbers_and_heir_summary[[2]]))
   ),
   ############################
   ### Read BECmaster files ###
@@ -93,31 +103,31 @@ list(
   #################################################
   tar_target(
     ENV_Plot_data_for_level,
-    ENV_Plot_data[ENV_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    ENV_Plot_data[ENV_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Humus_Plot_data_for_level,
-    Humus_Plot_data[Humus_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    Humus_Plot_data[Humus_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber] 
   ),
   tar_target(
     Mineral_Plot_data_for_level,
-    Mineral_Plot_data[Mineral_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    Mineral_Plot_data[Mineral_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Climate_Plot_data_for_level,
-    Climate_Plot_data[Climate_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    Climate_Plot_data[Climate_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Admin_Plot_data_for_level,
-    Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    Admin_Plot_data[Admin_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Veg_Plot_data_for_level,
-    Veg_Plot_data[Veg_Plot_data$PlotNumber %in% plot_numbers_in_level]
+    Veg_Plot_data[Veg_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
   ),
   tar_target(
     VegDat2_data_for_level,
-    vegDat2[vegDat2$PlotNumber %in% plot_numbers_in_level,]
+    vegDat2[vegDat2$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber,] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
   ),
   ##################################
   ### Read lookup function Files ###
@@ -200,109 +210,112 @@ list(
   #########################
   ### Create Veg Report ###
   #########################
-
-  ### TREE LAYER ###
+  
   tar_target(
-    Tree_layer_data,
-    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalA > 0],
+    uniqueSiteUnits,
+    unique(plot_numbers_and_site_units_in_level$SiteUnit)
   ),
   tar_target(
-    Tree_layer_constantcy,
-    generate_constantcy(Tree_layer_data$Species),
+    Tree_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalA > 0]
+  ),
+  tar_target(
+    Shrub_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalB > 0],
+  ),
+  tar_target(
+    Herb_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover6 > 0],
+  ),
+  tar_target(
+    Moss_layer_data,
+    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover7 > 0],
   ),
   tar_target(
     Tree_layer_VegDat2_data,
     VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Tree_layer_data$Species,]
   ),
   tar_target(
-    Tree_layer_mean_cover,
-    generate_mean_cover(Tree_layer_VegDat2_data)
-  ),
-  tar_target(
-    Tree_layer_taxon.all_data,
-    taxon.all[taxon.all$Code %in% Tree_layer_data$Species,]
-  ),
-  tar_target(
-    Tree_layer_table_data,
-    generateVegLayerTableDataFrame(Tree_layer_constantcy, Tree_layer_mean_cover, Tree_layer_taxon.all_data, "Tree_Layer")
-  ),
-  
-  ### SHRUB LAYER ###
-  tar_target(
-    Shrub_layer_data,
-    Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalB > 0],
-  ),
-  tar_target(
-    Shrub_layer_constantcy,
-    generate_constantcy(Shrub_layer_data$Species),
-  ),
-  tar_target(
-    Shrub_layer_VegDat2_data,
-    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Shrub_layer_data$Species,]
-  ),
-  tar_target(
-    Shrub_layer_mean_cover,
-    generate_mean_cover(Shrub_layer_VegDat2_data)
-  ),
-  tar_target(
-    Shrub_layer_taxon.all_data,
-    taxon.all[taxon.all$Code %in% Shrub_layer_data$Species,]
-  ),
-  tar_target(
-    Shrub_layer_table_data,
-    generateVegLayerTableDataFrame(Shrub_layer_constantcy, Shrub_layer_mean_cover, Shrub_layer_taxon.all_data, "Shrub_Layer")
-  ),
-  
-  ### HERB LAYER ###
-  tar_target(
-    Herb_layer_data,
-    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover6 > 0],
-  ),
-  tar_target(
-    Herb_layer_constantcy,
-    generate_constantcy(Herb_layer_data$Species),
-  ),
-  tar_target(
-    Herb_layer_VegDat2_data,
-    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Herb_layer_data$Species,]
-  ),
-  tar_target(
-    Herb_layer_mean_cover,
-    generate_mean_cover(Herb_layer_VegDat2_data)
-  ),
-  tar_target(
-    Herb_layer_taxon.all_data,
-    taxon.all[taxon.all$Code %in% Herb_layer_data$Species,]
-  ),
-  tar_target(
-    Herb_layer_table_data,
-    generateVegLayerTableDataFrame(Herb_layer_constantcy, Herb_layer_mean_cover, Herb_layer_taxon.all_data, "Herb_Layer")
-  ),
-  
-  ### MOSS LAYER ###
-  tar_target(
-    Moss_layer_data,
-    Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover7 > 0],
-  ),
-  tar_target(
-    Moss_layer_constantcy,
-    generate_constantcy(Moss_layer_data$Species),
-  ),
-  tar_target(
-    Moss_layer_VegDat2_data,
-    VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Moss_layer_data$Species,]
-  ),
-  tar_target(
-    Moss_layer_mean_cover,
-    generate_mean_cover(Moss_layer_VegDat2_data)
-  ),
-  tar_target(
-    Moss_layer_taxon.all_data,
-    taxon.all[taxon.all$Code %in% Moss_layer_data$Species,]
-  ),
-  tar_target(
-    Moss_layer_table_data,
-    generateVegLayerTableDataFrame(Moss_layer_constantcy, Moss_layer_mean_cover, Moss_layer_taxon.all_data, "Moss_Layer")
+    Veg_reports_path,
+    generate_veg_reports(Tree_layer_data, Shrub_layer_data, Herb_layer_data, Moss_layer_data, VegDat2_data_for_level, taxon.all, uniqueSiteUnits)
   )
+  
+  # ### SHRUB LAYER ###
+  # tar_target(
+  #   Shrub_layer_data,
+  #   Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalB > 0],
+  # ),
+  # tar_target(
+  #   Shrub_layer_constantcy,
+  #   generate_constantcy(Shrub_layer_data$Species),
+  # ),
+  # tar_target(
+  #   Shrub_layer_VegDat2_data,
+  #   VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Shrub_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Shrub_layer_mean_cover,
+  #   generate_mean_cover(Shrub_layer_VegDat2_data)
+  # ),
+  # tar_target(
+  #   Shrub_layer_taxon.all_data,
+  #   taxon.all[taxon.all$Code %in% Shrub_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Shrub_layer_table_data,
+  #   generateVegLayerTableDataFrame(Shrub_layer_constantcy, Shrub_layer_mean_cover, Shrub_layer_taxon.all_data, "Shrub_Layer")
+  # ),
+  # 
+  # ### HERB LAYER ###
+  # tar_target(
+  #   Herb_layer_data,
+  #   Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover6 > 0],
+  # ),
+  # tar_target(
+  #   Herb_layer_constantcy,
+  #   generate_constantcy(Herb_layer_data$Species),
+  # ),
+  # tar_target(
+  #   Herb_layer_VegDat2_data,
+  #   VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Herb_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Herb_layer_mean_cover,
+  #   generate_mean_cover(Herb_layer_VegDat2_data)
+  # ),
+  # tar_target(
+  #   Herb_layer_taxon.all_data,
+  #   taxon.all[taxon.all$Code %in% Herb_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Herb_layer_table_data,
+  #   generateVegLayerTableDataFrame(Herb_layer_constantcy, Herb_layer_mean_cover, Herb_layer_taxon.all_data, "Herb_Layer")
+  # ),
+  # 
+  # ### MOSS LAYER ###
+  # tar_target(
+  #   Moss_layer_data,
+  #   Veg_Plot_data_for_level[Veg_Plot_data_for_level$Cover7 > 0],
+  # ),
+  # tar_target(
+  #   Moss_layer_constantcy,
+  #   generate_constantcy(Moss_layer_data$Species),
+  # ),
+  # tar_target(
+  #   Moss_layer_VegDat2_data,
+  #   VegDat2_data_for_level[VegDat2_data_for_level$Species %in% Moss_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Moss_layer_mean_cover,
+  #   generate_mean_cover(Moss_layer_VegDat2_data)
+  # ),
+  # tar_target(
+  #   Moss_layer_taxon.all_data,
+  #   taxon.all[taxon.all$Code %in% Moss_layer_data$Species,]
+  # ),
+  # tar_target(
+  #   Moss_layer_table_data,
+  #   generateVegLayerTableDataFrame(Moss_layer_constantcy, Moss_layer_mean_cover, Moss_layer_taxon.all_data, "Moss_Layer")
+  # )
 )
 

@@ -10,6 +10,7 @@ output:
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 require(kableExtra)
+require(data.table)
 ```
 
 
@@ -18,14 +19,42 @@ level_name <- "Order"
 level_value <- "ORDER Poputre"
 ```
 
+### Site Units
+```{r choose site unit, echo=FALSE}
+hier_summary <- readRDS(file.path("../level", level_name, level_value, "heir_summary_ORDER_Poputre.RDS"))
+site_units <- hier_summary$SiteUnits
+print(site_units)
+```
+
+### Plot Numbers with Site Units
+```{r, echo=FALSE}
+site_unit <- site_units[[2]]
+
+SUTab <- fread("../BEC_ReportR/Classification_tables/ALLBECSU_2021_SU.csv")
+
+plot_numbers_with_site_unit <- SUTab$PlotNumber[SUTab$SiteUnit == site_unit]
+print(plot_numbers_with_site_unit)
+
+```
+
 <span class="emphasized">`r level_name`        `r level_value` </span>
+
+```{r}
+test_df <- read.csv(file="../level/Order/ORDER Poputre/veg_reports/Herb_Layer_BGxw2_115_.csv")
+```
 
 
 ```{r, echo=FALSE}
-df_herb <- read.csv(file = file.path('../','level', level_name, level_value, "veg_reports", "Herb_Layer"))
-df_moss <- read.csv(file = file.path('../','level', level_name, level_value, "veg_reports", "Moss_Layer"))
-df_shrub <- read.csv(file = file.path('../','level', level_name, level_value, "veg_reports", "Shrub_Layer"))
-df_tree <- read.csv(file = file.path('../','level', level_name, level_value, "veg_reports", "Tree_Layer"))
+reports_dir <- "veg_reports"
+csv_file_path <- function(layer_name, site_unit) file.path(reports_dir, paste(layer_name, str_replace(str_remove_all(site_unit, " "), "/", "_"), ".csv", sep="_"))
+
+
+
+
+df_herb <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Herb_Layer", site_unit)))
+df_moss <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Moss_Layer", site_unit)))
+df_shrub <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Shrub_Layer", site_unit)))
+df_tree <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Tree_Layer", site_unit)))
 
 len_herb <- nrow(df_herb)
 len_moss <- nrow(df_moss)
@@ -38,12 +67,6 @@ len_tree <- nrow(df_tree)
 df <- rbind(df_tree, df_shrub, df_herb, df_moss)
 ```
 
-```{r}
-html_table_width <- function(kable_output, width){
-  width_html <- paste0(paste0('<col width="', width, '">'), collapse = "\n")
-  sub("<table>", paste0("<table>\n", width_html), kable_output)
-}
-```
 
 ```{r Veg report, echo=FALSE}
 df <- df[, c("Layer","ScientificName", "constantcy","meanCover","EnglishName")]
@@ -54,5 +77,33 @@ kbl(df, col.names = c("Layer", "Scientific Name", "Constantcy", "Mean Cover", "E
   row_spec(len_tree, extra_css = "border-bottom: 1px solid") %>%
   row_spec(len_tree + len_shrub, extra_css = "border-bottom: 1px solid") %>%
   row_spec(len_tree + len_shrub + len_herb, extra_css = "border-bottom: 1px solid")
+```
+
+```{r}
+library("ggplot2")
+
+df=data.frame(x1=c(1), x2=c(3.5), y1=c(5), y2=c(2), colour=c('green'), r=c(1))
+x_lab = c("v.           \npoor            ", "poor            ", "medium            ", "rich            ", "v.            \nrich            ")
+y_lab = c("very wet", "wet", "very moist", "moist", "fresh", "slightly dry", "moderely dry", "very dry", "extremely dry", "excessively dry")
+
+ggplot() + 
+scale_x_continuous(name="Soil Nutrient Regime", labels=x_lab, limits=c(0,5), breaks=c(1,2,3,4,5), expand = c(0, 0), position = "top") + 
+scale_y_continuous(name="actual Soil Moisture Regime", labels=y_lab, limits=c(0,10), breaks=c(1,2,3,4,5,6,7,8,9,10), expand=c(0, 0)) +
+coord_fixed() +
+geom_rect(data=df, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), fill=df$colour, color="black", alpha=0.5) +
+geom_text(data=df, aes(x=x1+(x2-x1)/2, y=y1+(y2-y1)/2, label=r), size=4) + 
+theme(
+  panel.grid.major = element_line(linetype = 2, color="#A7A7A7", size = 0.3),
+  panel.grid.minor.x = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_rect(colour = "black", size=1, fill=NA),
+  panel.background = element_rect(fill="#F2F2F2"),
+  axis.ticks.x = element_blank(),
+  axis.ticks.y = element_blank(),
+  axis.ticks = element_blank(),
+  axis.text.x = element_text(face="bold", size=10),
+  axis.text.y = element_text(face="bold", size=10, vjust=2.75),
+  axis.title = element_text(face="bold") 
+ )
 ```
 
