@@ -9,6 +9,8 @@ output:
 
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(ggplot2)
+require(RColorBrewer)
 require(kableExtra)
 require(data.table)
 library(stringr)
@@ -163,12 +165,6 @@ p
 ## Box Plots
 
 ```{r}
-# Load ggplot2
-library(ggplot2)
- 
-# The mtcars dataset is natively available
-# head(mtcars)
- 
 # A really basic boxplot.
 ggplot(mtcars, aes(x=as.factor(cyl), y=mpg)) + 
     coord_flip() +
@@ -180,9 +176,6 @@ ggplot(mtcars, aes(x=as.factor(cyl), y=mpg)) +
 
 ```{r, echo=FALSE}
 # WindRose.R
-require(ggplot2)
-require(RColorBrewer)
-
 plot.windrose <- function(data,
                       spd,
                       dir,
@@ -314,6 +307,7 @@ plot.windrose <- function(data,
 
 
 ```
+
 ```{r, echo=FALSE}
 data.in <- read.csv(file = "wind_data.csv", col.names = c("date","hr","ws.80","wd.80"))
 
