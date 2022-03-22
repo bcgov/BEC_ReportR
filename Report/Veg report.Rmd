@@ -20,6 +20,8 @@ library(tidyverse)
 library(rgdal)
 library(broom)
 library(ggplot2)
+library("rjson")
+
 ```
 
 
@@ -85,10 +87,37 @@ kbl(df, col.names = c("Layer", "Scientific Name", "Constantcy", "Mean Cover", "E
   row_spec(len_tree + len_shrub + len_herb, extra_css = "border-bottom: 1px solid")
 ```
 # Edatopic Grid
+
+```{r Get soil moisture regime, echo=FALSE}
+env_summary <- fromJSON(file=file.path("../level", level_name, level_value, "summaries", "env", paste(str_replace_all(level_value, " ", "_"), ".JSON",  sep="")))
+
+soil_moisture_regime <- env_summary$MoistureRegime
+soil_moisture_regime_values <- as.numeric(names(soil_moisture_regime$summary))
+
+soil_moisture_regime_values <- soil_moisture_regime_values[!is.na(soil_moisture_regime_values)]
+
+y_range <- range(soil_moisture_regime_values)
+
+y_1 <- y_range[1]
+y_2 <- y_range[2]
+
+```
+```{r Get aSMR data, echo=FALSE}
+  
+aSMR_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"aSMR_Plot_data_for_level.csv"))
+asmr <- aSMR_Plot_data_for_level$aSMR
+asmr <- asmr[!is.na(asmr)]
+x_range <- range(asmr)
+
+x_1 <- x_range[1]
+x_2 <- x_range[2]
+```
+
+
 ```{r, echo=FALSE}
 library("ggplot2")
 
-df=data.frame(x1=c(1), x2=c(3.5), y1=c(5), y2=c(2), colour=c('green'), r=c(1))
+df=data.frame(x1=c(x_1), x2=c(x_2), y1=c(y_1), y2=c(y_2), colour=c('green'), r=c(1))
 x_lab = c("v.           \npoor            ", "poor            ", "medium            ", "rich            ", "v.            \nrich            ")
 y_lab = c("very wet", "wet", "very moist", "moist", "fresh", "slightly dry", "moderely dry", "very dry", "extremely dry", "excessively dry")
 
@@ -152,7 +181,52 @@ ggplot() +
   theme_void() 
 ```
 
+## Strata cover
+
+```{r}
+# strata_cover_tree <- env_summary$StrataCoverTree
+# strata_cover_hurb <- env_summary$StrataCoverTree
+
+ENV_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"ENV_Plot_data_for_level.csv"))
+strata_cover_tree <- ENV_Plot_data_for_level$StrataCoverTree
+#asmr <- asmr[!is.na(asmr)]
+
+```
+
+```{r}
+
+```
+
+
 ## Grouped Violin Plots
+```{r}
+p <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverTree, "Tree")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+q <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverHerb, "Herb")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+r <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverShrub, "Shrub")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+s <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+p
+q
+r
+s
+
+```
+
 
 ```{r}
 p <- ggplot(mtcars, aes(factor(cyl), mpg)) +

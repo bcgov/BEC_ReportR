@@ -48,7 +48,7 @@ roll_up_plot_data <- function(plot_data, lookup_function_list, becmaster_name, l
     
   }
   
-  reports_dir <- file.path("summaries", becmaster_name, level_name) 
+  reports_dir <- file.path("summaries", becmaster_name) 
   if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
   
   file_path <-  file.path(reports_dir, paste(str_replace_all(level_value, " ", "_"), ".JSON",  sep=""))

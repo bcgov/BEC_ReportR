@@ -98,6 +98,9 @@ list(
   tar_target(
    Veg_Plot_data, fread("../../../BEC_ReportR/Plot_Data/BECMaster19_Veg.csv")
   ),
+  tar_target(
+    aSMR_Plot_data, fread("../../../BEC_ReportR/Plot_Data/Plot_aSMR_Calculated.csv")
+  ),
   #################################################
   ### Generate Plot data for level in BECmaster ###
   #################################################
@@ -107,28 +110,42 @@ list(
   ),
   tar_target(
     Humus_Plot_data_for_level,
-    Humus_Plot_data[Humus_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber] 
+    Humus_Plot_data[Humus_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber] 
   ),
   tar_target(
     Mineral_Plot_data_for_level,
-    Mineral_Plot_data[Mineral_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
+    Mineral_Plot_data[Mineral_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Climate_Plot_data_for_level,
-    Climate_Plot_data[Climate_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
+    Climate_Plot_data[Climate_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Admin_Plot_data_for_level,
-    Admin_Plot_data[Admin_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber]
+    Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
   ),
   tar_target(
     Veg_Plot_data_for_level,
-    Veg_Plot_data[Veg_Plot_data$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
+    Veg_Plot_data[Veg_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
   ),
   tar_target(
     VegDat2_data_for_level,
-    vegDat2[vegDat2$PlotNumber %in%  plot_numbers_and_site_units_in_level$PlotNumber,] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
+    vegDat2[vegDat2$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber,] %>% merge(plot_numbers_and_site_units_in_level, by="PlotNumber")
   ),
+  tar_target(
+    aSMR_Plot_data_for_level,
+    aSMR_Plot_data[aSMR_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber,]
+  ),
+  # Write Plot files
+  tar_target(
+    aSMR_Plot_data_for_level_file,
+    write.csv(aSMR_Plot_data_for_level, "aSMR_Plot_data_for_level.csv")
+  ),
+  tar_target(
+    ENV_Plot_data_for_level_file,
+    write.csv(ENV_Plot_data_for_level, "ENV_Plot_data_for_level.csv")
+  ),
+  
   ##################################
   ### Read lookup function Files ###
   ################################## 
@@ -239,6 +256,10 @@ list(
     Veg_reports_path,
     generate_veg_reports(Tree_layer_data, Shrub_layer_data, Herb_layer_data, Moss_layer_data, VegDat2_data_for_level, taxon.all, uniqueSiteUnits)
   )
+  
+
+ 
+  
   
 
 )

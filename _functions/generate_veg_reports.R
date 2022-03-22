@@ -35,6 +35,4 @@ generate_veg_reports <- function(Tree_layer_data, Shrub_layer_data, Herb_layer_d
     #return(c(Tree_layer_table_data, Shurb_layer_table_data, Herb_layer_table_data, Moss_layer_table_data))
   }
   
-  print("TEST")
-  
 }
