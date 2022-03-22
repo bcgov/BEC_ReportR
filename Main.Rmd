@@ -19,7 +19,7 @@ require(dplyr)
 ```
 
 ```{r}
-source("CodeUsingTreeFunctions.R")
+source("./_functions/_CodeUsingTreeFunctions.R")
 ```
 
 
