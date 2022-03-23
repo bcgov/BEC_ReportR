@@ -13,6 +13,11 @@ if (!dir.exists(level_name_dir)) dir.create(level_name_dir, recursive = TRUE)
 level_value_dir <- file.path(level_name_dir, level.value) 
 if (!dir.exists(level_value_dir)) dir.create(level_value_dir, recursive = TRUE)
 
+write_df_to_csv_and_return_path <- function(data, path) {
+  write.csv(data, path)
+  return(path)
+}
+
 setwd(level_value_dir)
 
 list(
@@ -118,11 +123,12 @@ list(
   ),
   tar_target(
     Climate_Plot_data_for_level,
-    Climate_Plot_data[Climate_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
+    Climate_Plot_data[Climate_Plot_data$ID1 %in% plot_numbers_and_site_units_in_level$PlotNumber,]
   ),
+  # Note: Admin_Plot_Data has Plot col name instead of PlotName 
   tar_target(
     Admin_Plot_data_for_level,
-    Admin_Plot_data[Admin_Plot_data$PlotNumber %in% plot_numbers_and_site_units_in_level$PlotNumber]
+    Admin_Plot_data[Admin_Plot_data$Plot %in% plot_numbers_and_site_units_in_level$PlotNumber,]
   ),
   tar_target(
     Veg_Plot_data_for_level,
@@ -139,11 +145,28 @@ list(
   # Write Plot files
   tar_target(
     aSMR_Plot_data_for_level_file,
-    write.csv(aSMR_Plot_data_for_level, "aSMR_Plot_data_for_level.csv")
+    write_df_to_csv_and_return_path(aSMR_Plot_data_for_level, "aSMR_Plot_data_for_level.csv"),
+    format = "file"
   ),
   tar_target(
     ENV_Plot_data_for_level_file,
-    write.csv(ENV_Plot_data_for_level, "ENV_Plot_data_for_level.csv")
+    write_df_to_csv_and_return_path(ENV_Plot_data_for_level, "ENV_Plot_data_for_level.csv"),
+    format = "file"
+  ),
+  tar_target(
+    Veg_Plot_data_for_level_file,
+    write_df_to_csv_and_return_path(Veg_Plot_data_for_level, "Veg_Plot_data_for_level.csv"),
+    format = "file"
+  ),
+  tar_target(
+    Admin_Plot_data_for_level_file,
+    write_df_to_csv_and_return_path(Admin_Plot_data_for_level, "Admin_Plot_data_for_level.csv"),
+    format = "file"
+  ),
+  tar_target(
+    Climate_Plot_data_for_level_file,
+    write_df_to_csv_and_return_path(Climate_Plot_data_for_level, "Climate_Plot_data_for_level.csv"),
+    format = "file"
   ),
   
   ##################################
@@ -185,15 +208,15 @@ list(
     fromJSON(file=rolled_up_env_data_file_path)
   ),
   # Create admin data summary
-  tar_target(
-    rolled_up_admin_data_file_path,
-    roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions, "admin", level_name, level_value),
-    format = "file"
-  ),
-  tar_target(
-    admin_summary,
-    fromJSON(file=rolled_up_admin_data_file_path)
-  ),
+  # tar_target(
+  #   rolled_up_admin_data_file_path,
+  #   roll_up_plot_data(Admin_Plot_data_for_level, admin_lookup_functions, "admin", level_name, level_value),
+  #   format = "file"
+  # ),
+  # tar_target(
+  #   admin_summary,
+  #   fromJSON(file=rolled_up_admin_data_file_path)
+  # ),
   # Create climate data summary
   tar_target(
     rolled_up_climate_data_file_path,

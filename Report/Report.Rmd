@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 require(ggplot2)
 require(RColorBrewer)
 require(kableExtra)
@@ -21,6 +21,7 @@ library(rgdal)
 library(broom)
 library(ggplot2)
 library("rjson")
+library("readxl")
 
 ```
 
@@ -183,7 +184,7 @@ ggplot() +
 
 ## Strata cover
 
-```{r}
+```{r, echo=FALSE}
 # strata_cover_tree <- env_summary$StrataCoverTree
 # strata_cover_hurb <- env_summary$StrataCoverTree
 
@@ -193,13 +194,31 @@ strata_cover_tree <- ENV_Plot_data_for_level$StrataCoverTree
 
 ```
 
-```{r}
-
+```{r, echo=FALSE}
+Tree=ENV_Plot_data_for_level$StrataCoverTree
+Herb=ENV_Plot_data_for_level$StrataCoverHerb
+Shrub=ENV_Plot_data_for_level$StrataCoverShrub
+Moss=ENV_Plot_data_for_level$StrataCoverMoss
 ```
 
+```{r, echo=FALSE}
+strata_cover <- melt(data.frame(Tree, Herb, Shrub))
 
-## Grouped Violin Plots
-```{r}
+# Multiple plots same axis
+p <- ggplot(strata_cover, aes(factor(variable), value)) +
+  geom_violin() +
+  geom_boxplot(width = .1) 
+
+s <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+p
+s
+```
+
+```{r, echo=FALSE}
 p <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverTree, "Tree")) +
   geom_violin() +
   geom_boxplot(width = .1) +
@@ -225,25 +244,82 @@ q
 r
 s
 
+# Multiple plots same axis
+# p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
+#   geom_violin() +
+#   geom_boxplot(width = .1)
+# p
+
 ```
 
 
-```{r}
-p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
-  geom_violin() +
-  geom_boxplot(width = .1)
+## Life Forms
 
-p
+```{r, echo=FALSE}
+MasterSpeciesList <- read_excel("../BEC_ReportR/LookUp_tables/MasterSpeciesList.xlsx") 
+Veg_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"Veg_Plot_data_for_level.csv"))
 ```
 
-## Box Plots
+```{r, echo=FALSE}
+df_lifeforms <- merge(x=Veg_Plot_data_for_level, y=MasterSpeciesList, by.x="Species", by.y="Code") 
+```
 
 ```{r}
-# A really basic boxplot.
-ggplot(mtcars, aes(x=as.factor(cyl), y=mpg)) + 
+# Need more information about life forms plots 
+
+# p <- ggplot(df_lifeforms, aes(factor(Lifeform), mpg)) +
+#   geom_violin() +
+#   geom_boxplot(width = .1)
+# p
+```
+
+## BGCS Counts
+```{r Counts of GIS_BGC for level, echo=FALSE}
+Admin_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"Admin_Plot_data_for_level.csv"))
+GIS_BGC <- Admin_Plot_data_for_level$GIS_BGC
+counts_GIS_BGC <- table(GIS_BGC)
+print(counts_GIS_BGC)
+
+```
+## Temperature, Precipitation, Derived
+```{r, echo=FALSE}
+Climate_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"Climate_Plot_data_for_level.csv"))
+
+MAT <- Climate_Plot_data_for_level$MAT
+DD5 <- Climate_Plot_data_for_level$DD5
+EMT <- Climate_Plot_data_for_level$EMT
+MAP <- Climate_Plot_data_for_level$MAP
+MSP <- Climate_Plot_data_for_level$MSP
+PAS <- Climate_Plot_data_for_level$PAS
+CMD <- Climate_Plot_data_for_level$CMD
+FFP <- Climate_Plot_data_for_level$FFP
+TD <- Climate_Plot_data_for_level$TD
+
+```
+
+```{r, echo=FALSE}
+df_temperature <- melt(data.frame(MAT, DD5, EMT))
+df_precipitation <- melt(data.frame(MAP, MSP, PAS))
+df_derived <- melt(data.frame(CMD, FFP, TD))
+```
+
+note: EMT and MAT have a very small range so their box plot is very small compared to DD5
+
+```{r, echo=FALSE}
+ggplot(df_temperature, aes(x=as.factor(variable), y=value)) + 
     coord_flip() +
     geom_boxplot( alpha=0.2) +    # fill="slateblue"
-    xlab("cyl") 
+    xlab("Temperature") 
+
+ggplot(df_precipitation, aes(x=as.factor(variable), y=value)) + 
+    coord_flip() +
+    geom_boxplot( alpha=0.2) +    # fill="slateblue"
+    xlab("Precipitation") 
+
+ggplot(df_derived, aes(x=as.factor(variable), y=value)) + 
+    coord_flip() +
+    geom_boxplot( alpha=0.2) +    # fill="slateblue"
+    xlab("Derived") 
 ```
 
 ## Wind Rose
