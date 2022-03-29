@@ -57,13 +57,13 @@ print(plot_numbers_with_site_unit)
 
 ```{r, echo=FALSE}
 reports_dir <- "veg_reports"
-csv_file_path <- function(layer_name, site_unit) file.path(reports_dir, paste(layer_name, str_replace(str_remove_all(site_unit, " "), "/", "_"), ".csv", sep="_"))
+csv_file_path <- function(layer_name) file.path(reports_dir, paste(layer_name, ".csv", sep="_"))
 
 
-df_herb <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Herb_Layer", site_unit)))
-df_moss <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Moss_Layer", site_unit)))
-df_shrub <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Shrub_Layer", site_unit)))
-df_tree <- read.csv(file = file.path('../level', level_name, level_value, csv_file_path("Tree_Layer", site_unit)))
+df_herb <- read.csv(file = file.path('../level', level_name, level_value, "veg_reports", "Herb_Layer.csv"))
+df_moss <- read.csv(file = file.path('../level', level_name, level_value, "veg_reports", "Moss_Layer.csv"))
+df_shrub <- read.csv(file = file.path('../level', level_name, level_value,"veg_reports",  "Shrub_Layer.csv"))
+df_tree <- read.csv(file = file.path('../level', level_name, level_value, "veg_reports", "Tree_Layer.csv"))
 
 len_herb <- nrow(df_herb)
 len_moss <- nrow(df_moss)
@@ -265,6 +265,10 @@ df_lifeforms <- merge(x=Veg_Plot_data_for_level, y=MasterSpeciesList, by.x="Spec
 ```
 
 ```{r}
+
+# Life form = sum of total A, total B, cover6, cover 7
+
+
 # Need more information about life forms plots 
 
 # p <- ggplot(df_lifeforms, aes(factor(Lifeform), mpg)) +

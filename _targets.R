@@ -5,7 +5,6 @@ sapply(paste("_functions/", files.sources, sep=""), source)
 
 level.name <- "Order"
 level.value <- "ORDER Poputre"
-site.unit <- "IDF xm   /10"
 
 level_name_dir <- file.path("level", level.name) 
 if (!dir.exists(level_name_dir)) dir.create(level_name_dir, recursive = TRUE)
@@ -31,10 +30,6 @@ list(
   tar_target(
     level_value,
     level.value
-  ),
-  tar_target(
-    site_unit,
-    site.unit
   ),
   ###################################################################################################
   ### Read Various files required to generate Hier.data and  plot_numbers_and_site_units_in_level ###
@@ -252,10 +247,6 @@ list(
   #########################
   
   tar_target(
-    uniqueSiteUnits,
-    unique(plot_numbers_and_site_units_in_level$SiteUnit)
-  ),
-  tar_target(
     Tree_layer_data,
     Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalA > 0]
   ),
@@ -277,13 +268,7 @@ list(
   ),
   tar_target(
     Veg_reports_path,
-    generate_veg_reports(Tree_layer_data, Shrub_layer_data, Herb_layer_data, Moss_layer_data, VegDat2_data_for_level, taxon.all, uniqueSiteUnits)
+    generate_veg_reports(Tree_layer_data, Shrub_layer_data, Herb_layer_data, Moss_layer_data, VegDat2_data_for_level, taxon.all)
   )
-  
-
- 
-  
-  
-
 )
 

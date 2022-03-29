@@ -1,4 +1,4 @@
-generateVegLayerTableDataFrame <- function(Tree_layer_constantcy, Tree_layer_mean_cover, Tree_layer_taxon.all_data, layer_name, site_unit) {
+generateVegLayerTableDataFrame <- function(Tree_layer_constantcy, Tree_layer_mean_cover, Tree_layer_taxon.all_data, layer_name) {
   
   constantcy <- data.frame(unlist(Tree_layer_constantcy))
   cover <- data.frame(unlist(Tree_layer_mean_cover))
@@ -18,9 +18,9 @@ generateVegLayerTableDataFrame <- function(Tree_layer_constantcy, Tree_layer_mea
   reports_dir <- "veg_reports"
   if (!dir.exists(reports_dir)) dir.create(reports_dir, recursive = TRUE)
   
-  csv_file_path <- file.path(reports_dir, paste(layer_name, str_replace(str_remove_all(site_unit, " "), "/", "_"), ".csv", sep="_"))
+  csv_file_path <- file.path(reports_dir, paste(layer_name, ".csv", sep=""))
   
   write.csv(df, csv_file_path)
   
-  return(file.path(reports_dir, layer_name, site_unit))
+  return(csv_file_path)
 }
