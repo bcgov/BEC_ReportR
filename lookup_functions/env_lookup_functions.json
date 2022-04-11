@@ -74,7 +74,7 @@
   "FloodingRegimeDur": { "variableType": "categorical" },
   "SoilDrainage": { "variableType": "categorical" },
   "SeepageDepth": { "variableType": "quantitative" },
-  "RootRestrictingType": { "variableType": "quantitative" },
+  "RootRestrictingType": { "variableType": "categorical" },
   "RootRestrictingDepth": { "variableType": "quantitative" },
   "RootZoneParticleSize": { "variableType": "categorical" },
   "RootingDepth": { "variableType": "quantitative" },

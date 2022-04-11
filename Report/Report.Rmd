@@ -595,14 +595,6 @@ sloping_na <- length(which(is.na(ENV_Plot_data_for_level["Aspect"])))
 
 ### Elevation
 ```{r}
-elevation <- ENV_Plot_data_for_level[c("Elevation") ]
-#print(elevation)
-# 
-# elevation <- ggplot(ENV_Plot_data_for_level, aes(elevation, "Elevation")) +
-#   geom_violin() +
-#   geom_boxplot(width = .1) +
-#   coord_flip()
-
 
 elevation <- ggplot(ENV_Plot_data_for_level, aes(Elevation, "Elevation")) +
   geom_violin() +
@@ -612,4 +604,54 @@ elevation <- ggplot(ENV_Plot_data_for_level, aes(Elevation, "Elevation")) +
 elevation
 
 ```
+### Mesoslope
+```{r}
+meso <- env_summary$MesoSlopePosition$summary
+meso
+```
+### Parent Material
+Missing
+
+### Humus
+```{r}
+humus <- env_summary$HumusForm$summary
+humus
+
+```
+### Humus Thickness
+Missing
+
+### Texture
+```{r}
+mineral_summary <- fromJSON(file=file.path("../level", level_name, level_value, "summaries", "mineral", paste(str_replace_all(level_value, " ", "_"), ".JSON",  sep="")))
+
+texture <- mineral_summary$Texture$summary
+texture
+```
+
+### Depth to Restriction
+```{r}
+depth <- ENV_Plot_data_for_level$RootingDepth 
+band_0_30 <- sum(depth >= 0 & depth < 30, na.rm=TRUE)
+band_30_60 <- sum(depth >= 30  & depth < 60, na.rm=TRUE)
+band_60_90 <- sum(depth >= 60 & depth < 90, na.rm=TRUE)
+band_90_plus <- sum(depth >= 90, na.rm=TRUE)
+no_data <- sum(is.na(depth))
+ 
+
+band_0_30
+band_30_60
+band_60_90
+band_90_plus
+no_data
+```
+### Restricting Type
+
+```{r}
+rootRestrictingType <- env_summary$RootRestrictingType$summary
+rootRestrictingType
+```
+
+### Gleying DEpth
+Missing
 
