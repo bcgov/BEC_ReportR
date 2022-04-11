@@ -31,6 +31,11 @@ level_name <- "Order"
 level_value <- "ORDER Poputre"
 ```
 
+```{r}
+ENV_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"ENV_Plot_data_for_level.csv"))
+
+```
+
 ### Site Units
 ```{r choose site unit, echo=FALSE}
 hier_summary <- readRDS(file.path("../level", level_name, level_value, "heir_summary_ORDER_Poputre.RDS"))
@@ -167,20 +172,42 @@ ggraph(mygraph, layout = 'dendrogram', circular = FALSE) +
   theme_void()
 ```
 
+# Map
+
 ```{r, echo=FALSE}
 my_spdf <- readOGR(dsn= paste0("../BEC_ReportR/Spatial_files"), verbose=FALSE)
 ```
-## Map
+
+```{r}
+lat <- ENV_Plot_data_for_level$Latitude
+lon <- ENV_Plot_data_for_level$Longitude*(-1)
+lon_lat <- as.data.frame(cbind(lon,lat)) %>% drop_na()
+```
+
 
 ```{r, echo=FALSE}
 spdf_fortified <- tidy(my_spdf)
 
 # Plot it
+# library(ggplot2)
+# ggplot() +
+#   geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="#69b3a2", color="white") +
+#   geom_point(data=lon_lat, aes(lon, lat), alpha = 0.5, size = 1) +
+#   theme_void() 
+
+
+library("rnaturalearth")
+library("rnaturalearthdata")
 library(ggplot2)
+
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
 ggplot() +
   geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="#69b3a2", color="white") +
+  geom_point(data = lon_lat, aes(x = lon, y = lat), size = 4, shape = 23, fill = "darkred") + 
   theme_void() 
 ```
+
 
 ## Strata cover
 
@@ -188,7 +215,6 @@ ggplot() +
 # strata_cover_tree <- env_summary$StrataCoverTree
 # strata_cover_hurb <- env_summary$StrataCoverTree
 
-ENV_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"ENV_Plot_data_for_level.csv"))
 strata_cover_tree <- ENV_Plot_data_for_level$StrataCoverTree
 #asmr <- asmr[!is.na(asmr)]
 
@@ -258,15 +284,39 @@ s
 ```{r, echo=FALSE}
 MasterSpeciesList <- read_excel("../BEC_ReportR/LookUp_tables/MasterSpeciesList.xlsx") 
 Veg_Plot_data_for_level <- read.csv(file=file.path("../level", level_name, level_value,"Veg_Plot_data_for_level.csv"))
+Veg_Plot_data_for_level$SummedCover <- Veg_Plot_data_for_level$TotalA + Veg_Plot_data_for_level$TotalB + Veg_Plot_data_for_level$Cover6 + Veg_Plot_data_for_level$Cover7
+
 ```
 
 ```{r, echo=FALSE}
 df_lifeforms <- merge(x=Veg_Plot_data_for_level, y=MasterSpeciesList, by.x="Species", by.y="Code") 
+
 ```
+
+```{r}
+lifeform_0 <- df_lifeforms %>% filter(Lifeform == 0)
+lifeform_1 <- df_lifeforms %>% filter(Lifeform == 1)
+lifeform_2 <- df_lifeforms %>% filter(Lifeform == 2)
+lifeform_3 <- df_lifeforms %>% filter(Lifeform == 3)
+lifeform_4 <- df_lifeforms %>% filter(Lifeform == 4)
+lifeform_5 <- df_lifeforms %>% filter(Lifeform == 5)
+lifeform_6 <- df_lifeforms %>% filter(Lifeform == 6)
+lifeform_7 <- df_lifeforms %>% filter(Lifeform == 7)
+lifeform_8 <- df_lifeforms %>% filter(Lifeform == 8)
+lifeform_9 <- df_lifeforms %>% filter(Lifeform == 9)
+lifeform_10 <- df_lifeforms %>% filter(Lifeform == 10)
+lifeform_11 <- df_lifeforms %>% filter(Lifeform == 11)
+lifeform_12 <- df_lifeforms %>% filter(Lifeform == 12)
+lifeform_13 <- df_lifeforms %>% filter(Lifeform == 13)
+lifeform_14 <- df_lifeforms %>% filter(Lifeform == 14)
+
+```
+
 
 ```{r}
 
 # Life form = sum of total A, total B, cover6, cover 7
+# Plot number, Species Code, Life form, Summed Cover. Then summarize by lifeform, by plot number
 
 
 # Need more information about life forms plots 
@@ -301,6 +351,63 @@ TD <- Climate_Plot_data_for_level$TD
 
 ```
 
+```{r}
+mat <- ggplot(Climate_Plot_data_for_level, aes(MAT, "MAT")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+dd5 <- ggplot(Climate_Plot_data_for_level, aes(DD5, "DD5")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+emt <- ggplot(Climate_Plot_data_for_level, aes(EMT, "EMT")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+map <- ggplot(Climate_Plot_data_for_level, aes(MAP, "MAP")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+msp <- ggplot(Climate_Plot_data_for_level, aes(MSP, "MSP")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+cmd <- ggplot(Climate_Plot_data_for_level, aes(CMD, "CMD")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+pas <- ggplot(Climate_Plot_data_for_level, aes(PAS, "PAS")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+ffp <- ggplot(Climate_Plot_data_for_level, aes(FFP, "FFP")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+td <- ggplot(Climate_Plot_data_for_level, aes(TD, "TD")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+mat
+dd5
+emt
+map
+msp
+cmd
+pas
+ffp
+td
+```
+
 ```{r, echo=FALSE}
 df_temperature <- melt(data.frame(MAT, DD5, EMT))
 df_precipitation <- melt(data.frame(MAP, MSP, PAS))
@@ -310,20 +417,20 @@ df_derived <- melt(data.frame(CMD, FFP, TD))
 note: EMT and MAT have a very small range so their box plot is very small compared to DD5
 
 ```{r, echo=FALSE}
-ggplot(df_temperature, aes(x=as.factor(variable), y=value)) + 
-    coord_flip() +
-    geom_boxplot( alpha=0.2) +    # fill="slateblue"
-    xlab("Temperature") 
-
-ggplot(df_precipitation, aes(x=as.factor(variable), y=value)) + 
-    coord_flip() +
-    geom_boxplot( alpha=0.2) +    # fill="slateblue"
-    xlab("Precipitation") 
-
-ggplot(df_derived, aes(x=as.factor(variable), y=value)) + 
-    coord_flip() +
-    geom_boxplot( alpha=0.2) +    # fill="slateblue"
-    xlab("Derived") 
+# ggplot(df_temperature, aes(x=as.factor(variable), y=value)) + 
+#     coord_flip() +
+#     geom_boxplot( alpha=0.2) +    # fill="slateblue"
+#     xlab("Temperature") 
+# 
+# ggplot(df_precipitation, aes(x=as.factor(variable), y=value)) + 
+#     coord_flip() +
+#     geom_boxplot( alpha=0.2) +    # fill="slateblue"
+#     xlab("Precipitation") 
+# 
+# ggplot(df_derived, aes(x=as.factor(variable), y=value)) + 
+#     coord_flip() +
+#     geom_boxplot( alpha=0.2) +    # fill="slateblue"
+#     xlab("Derived") 
 ```
 
 ## Wind Rose
@@ -333,11 +440,11 @@ ggplot(df_derived, aes(x=as.factor(variable), y=value)) +
 plot.windrose <- function(data,
                       spd,
                       dir,
-                      spdres = 2,
+                      spdres = round((max(wind_rose_df$SlopeGradient) - min(wind_rose_df$SlopeGradient)) / 10),
                       dirres = 30,
-                      spdmin = 2,
-                      spdmax = 20,
-                      spdseq = NULL,
+                      spdmin = min(wind_rose_df$SlopeGradient),
+                      spdmax = max(wind_rose_df$SlopeGradient),
+                      spdseq = c(5,25,50,70, 100),
                       palette = "YlGnBu",
                       countmax = NA,
                       debug = 0) {
@@ -362,13 +469,13 @@ plot.windrose <- function(data,
   data[[dir]][dnu] <- NA
 
   # figure out the wind speed bins ----
-  if (missing(spdseq)){
-    spdseq <- seq(spdmin,spdmax,spdres)
-  } else {
-    if (debug >0){
-      cat("Using custom speed bins \n")
-    }
-  }
+  # if (missing(spdseq)){
+  #   spdseq <- seq(spdmin,spdmax,spdres)
+  # } else {
+  #   if (debug >0){
+  #     cat("Using custom speed bins \n")
+  #   }
+  # }
   # get some information about the number of bins, etc.
   n.spd.seq <- length(spdseq)
   n.colors.in.range <- n.spd.seq - 1
@@ -379,23 +486,25 @@ plot.windrose <- function(data,
                                                 min(9,
                                                     n.colors.in.range)),                                               
                                             palette))(n.colors.in.range)
-
-  if (max(data[[spd]],na.rm = TRUE) > spdmax){    
-    spd.breaks <- c(spdseq,
-                    max(data[[spd]],na.rm = TRUE))
-    spd.labels <- c(paste(c(spdseq[1:n.spd.seq-1]),
-                          '-',
-                          c(spdseq[2:n.spd.seq])),
-                    paste(spdmax,
-                          "-",
-                          max(data[[spd]],na.rm = TRUE)))
-    spd.colors <- c(spd.colors, "grey50")
-  } else{
+# 
+#   if (max(data[[spd]],na.rm = TRUE) > spdmax){    
+#     spd.breaks <- c(spdseq,
+#                     max(data[[spd]],na.rm = TRUE))
+#     spd.labels <- c(paste(c(spdseq[1:n.spd.seq-1]),
+#                           '-',
+#                           c(spdseq[2:n.spd.seq])),
+#                     paste(spdmax,
+#                           "-",
+#                           max(data[[spd]],na.rm = TRUE)))
+#     spd.colors <- c(spd.colors, "grey50")
+#   } else{
     spd.breaks <- spdseq
     spd.labels <- paste(c(spdseq[1:n.spd.seq-1]),
                         '-',
-                        c(spdseq[2:n.spd.seq]))    
-  }
+                        c(spdseq[2:n.spd.seq]))
+    
+    spd.labels[4] <- "70 +"
+  # }
   data$spd.binned <- cut(x = data[[spd]],
                          breaks = spd.breaks,
                          labels = spd.labels,
@@ -441,7 +550,7 @@ plot.windrose <- function(data,
     scale_x_discrete(drop = FALSE,
                      labels = waiver()) +
     coord_polar(start = -((dirres/2)/360) * 2*pi) +
-    scale_fill_manual(name = "Wind Speed (m/s)", 
+    scale_fill_manual(name = "Slope Gradient %", 
                       values = spd.colors,
                       drop = FALSE) +
     theme(axis.title.x = element_blank())
@@ -464,11 +573,43 @@ plot.windrose <- function(data,
 
 ```{r, echo=FALSE}
 data.in <- read.csv(file = "wind_data.csv", col.names = c("date","hr","ws.80","wd.80"))
-
-p1 <- plot.windrose(spd = data.in$ws.80,
-                   dir = data.in$wd.80)
+wind_rose_df <- ENV_Plot_data_for_level[c("Aspect", "SlopeGradient") ] %>% drop_na() %>% filter(SlopeGradient != 999) %>% filter(SlopeGradient > 5)
 
 
 ```
 
+```{r}
+p1 <- plot.windrose(spd = wind_rose_df$SlopeGradient,
+                   dir = wind_rose_df$Aspect)
+
+sloping_less_than_five <- length(which(ENV_Plot_data_for_level["Aspect"]<5))
+sloping_999 <- length(which(ENV_Plot_data_for_level["Aspect"]==999))
+sloping_na <- length(which(is.na(ENV_Plot_data_for_level["Aspect"])))
+
+```
+
+### Level count (slope < 5): `r sloping_less_than_five + sloping_999`
+### No data count: `r sloping_na`
+
+# Site 
+
+### Elevation
+```{r}
+elevation <- ENV_Plot_data_for_level[c("Elevation") ]
+#print(elevation)
+# 
+# elevation <- ggplot(ENV_Plot_data_for_level, aes(elevation, "Elevation")) +
+#   geom_violin() +
+#   geom_boxplot(width = .1) +
+#   coord_flip()
+
+
+elevation <- ggplot(ENV_Plot_data_for_level, aes(Elevation, "Elevation")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+elevation
+
+```
 

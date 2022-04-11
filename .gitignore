@@ -40,3 +40,8 @@ vignettes/*.pdf
 
 # Data Files
 .BEC_ReportR/
+BEC_ReportR/
+level/
+
+# Msc
+.DS_Store

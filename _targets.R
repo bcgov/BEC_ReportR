@@ -245,7 +245,6 @@ list(
   #########################
   ### Create Veg Report ###
   #########################
-  
   tar_target(
     Tree_layer_data,
     Veg_Plot_data_for_level[Veg_Plot_data_for_level$TotalA > 0]
