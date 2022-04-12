@@ -42,6 +42,7 @@ vignettes/*.pdf
 .BEC_ReportR/
 BEC_ReportR/
 level/
+Report/*.png
 
 # Msc
 .DS_Store

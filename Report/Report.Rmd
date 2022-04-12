@@ -127,7 +127,7 @@ df=data.frame(x1=c(x_1), x2=c(x_2), y1=c(y_1), y2=c(y_2), colour=c('green'), r=c
 x_lab = c("v.           \npoor            ", "poor            ", "medium            ", "rich            ", "v.            \nrich            ")
 y_lab = c("very wet", "wet", "very moist", "moist", "fresh", "slightly dry", "moderely dry", "very dry", "extremely dry", "excessively dry")
 
-ggplot() + 
+edatopic <- ggplot() + 
 scale_x_continuous(name="Soil Nutrient Regime", labels=x_lab, limits=c(0,5), breaks=c(1,2,3,4,5), expand = c(0, 0), position = "top") + 
 scale_y_continuous(name="actual Soil Moisture Regime", labels=y_lab, limits=c(0,10), breaks=c(1,2,3,4,5,6,7,8,9,10), expand=c(0, 0)) +
 coord_fixed() +
@@ -146,6 +146,8 @@ theme(
   axis.text.y = element_text(face="bold", size=10, vjust=2.75),
   axis.title = element_text(face="bold") 
  )
+
+ggsave("edatpic.png")
 ```
 
 ```{r, echo=FALSE}
@@ -165,11 +167,13 @@ edges <- drop_na(rbind(d1, d2, d3, d4))
 mygraph <- graph_from_data_frame( edges )
  
 # Basic tree
-ggraph(mygraph, layout = 'dendrogram', circular = FALSE) + 
+heigharchy <- ggraph(mygraph, layout = 'dendrogram', circular = FALSE) + 
   geom_edge_diagonal() +
   geom_node_point() +
   geom_node_label(aes(label = level_labels), repel = TRUE) +
   theme_void()
+
+ggsave("hierarchy.png")
 ```
 
 # Map
@@ -202,10 +206,13 @@ library(ggplot2)
 
 
 world <- ne_countries(scale = "medium", returnclass = "sf")
-ggplot() +
+bc_map <- ggplot() +
   geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="#69b3a2", color="white") +
   geom_point(data = lon_lat, aes(x = lon, y = lat), size = 4, shape = 23, fill = "darkred") + 
   theme_void() 
+
+ggsave("bc_map.png")
+
 ```
 
 
@@ -231,50 +238,41 @@ Moss=ENV_Plot_data_for_level$StrataCoverMoss
 strata_cover <- melt(data.frame(Tree, Herb, Shrub))
 
 # Multiple plots same axis
-p <- ggplot(strata_cover, aes(factor(variable), value)) +
-  geom_violin() +
-  geom_boxplot(width = .1) 
-
-s <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
-
-p
-s
-```
-
-```{r, echo=FALSE}
-p <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverTree, "Tree")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
-
-q <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverHerb, "Herb")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
-
-r <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverShrub, "Shrub")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
-
-s <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
-
-p
-q
-r
-s
-
-# Multiple plots same axis
-# p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
+# p <- ggplot(strata_cover, aes(factor(variable), value)) +
 #   geom_violin() +
-#   geom_boxplot(width = .1)
-# p
+#   geom_boxplot(width = .1) 
+
+tree <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverTree, "Tree")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+herb <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverHerb, "Herb")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+shrub <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverShrub, "Shrub")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+moss <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+tree
+ggsave("tree.png")
+
+herb
+ggsave("herb.png")
+
+shrub
+ggsave("shrub.png")
+
+moss
+ggsave("moss.png")
 
 ```
 
@@ -310,6 +308,237 @@ lifeform_12 <- df_lifeforms %>% filter(Lifeform == 12)
 lifeform_13 <- df_lifeforms %>% filter(Lifeform == 13)
 lifeform_14 <- df_lifeforms %>% filter(Lifeform == 14)
 
+```
+
+```{r}
+life_form_0 <- data.frame(lifeForm0 = (lifeform_0$TotalA + lifeform_0$TotalB + lifeform_0$Cover6 + lifeform_0$Cover7))
+life_form_1 <- data.frame(lifeForm1 = (lifeform_1$TotalA + lifeform_1$TotalB + lifeform_1$Cover6 + lifeform_1$Cover7))
+life_form_2 <- data.frame(lifeForm2 =  (lifeform_2$TotalA + lifeform_2$TotalB + lifeform_2$Cover6 + lifeform_2$Cover7))
+life_form_3 <- data.frame(lifeForm3 = (lifeform_3$TotalA + lifeform_3$TotalB + lifeform_3$Cover6 + lifeform_3$Cover7))
+life_form_4 <- data.frame(lifeForm4 = (lifeform_4$TotalA + lifeform_4$TotalB + lifeform_4$Cover6 + lifeform_4$Cover7))
+life_form_5 <- data.frame(lifeForm5 = (lifeform_5$TotalA + lifeform_5$TotalB + lifeform_5$Cover6 + lifeform_5$Cover7))
+life_form_6 <- data.frame(lifeForm6 = (lifeform_6$TotalA + lifeform_6$TotalB + lifeform_6$Cover6 + lifeform_6$Cover7))
+life_form_7 <- data.frame(lifeForm7 = (lifeform_7$TotalA + lifeform_7$TotalB + lifeform_7$Cover6 + lifeform_7$Cover7))
+life_form_8 <- data.frame(lifeForm8 = (lifeform_8$TotalA + lifeform_8$TotalB + lifeform_8$Cover6 + lifeform_8$Cover7))
+life_form_9 <- data.frame(lifeForm9 = (lifeform_9$TotalA + lifeform_9$TotalB + lifeform_9$Cover6 + lifeform_9$Cover7))
+life_form_10 <- data.frame(lifeForm10 = (lifeform_10$TotalA + lifeform_10$TotalB + lifeform_10$Cover6 + lifeform_10$Cover7))
+life_form_11 <- data.frame(lifeForm11 = (lifeform_11$TotalA + lifeform_11$TotalB + lifeform_11$Cover6 + lifeform_11$Cover7))
+life_form_12 <- data.frame(lifeForm12 = (lifeform_12$TotalA + lifeform_12$TotalB + lifeform_12$Cover6 + lifeform_12$Cover7))
+life_form_13 <- data.frame(lifeForm13 = (lifeform_13$TotalA + lifeform_13$TotalB + lifeform_13$Cover6 + lifeform_13$Cover7))
+life_form_14 <- data.frame(lifeForm14 = (lifeform_14$TotalA + lifeform_14$TotalB + lifeform_14$Cover6 + lifeform_14$Cover7))
+
+```
+
+
+```{r}
+life_form_0_plot <- ggplot(life_form_0, aes(lifeForm0, "lifeForm0")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_1_plot <- ggplot(life_form_1, aes(lifeForm1, "lifeForm1")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_2_plot <- ggplot(life_form_2, aes(lifeForm2, "lifeForm2")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_3_plot <- ggplot(life_form_3, aes(lifeForm3, "lifeForm3")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_4_plot <- ggplot(life_form_4, aes(lifeForm4, "lifeForm4")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_5_plot <- ggplot(life_form_5, aes(lifeForm5, "lifeForm5")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_6_plot <- ggplot(life_form_6, aes(lifeForm6, "lifeForm6")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_7_plot <- ggplot(life_form_7, aes(lifeForm7, "lifeForm7")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_8_plot <- ggplot(life_form_8, aes(lifeForm8, "lifeForm8")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+
+life_form_9_plot <- ggplot(life_form_9, aes(lifeForm9, "lifeForm9")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_10_plot <- ggplot(life_form_10, aes(lifeForm10, "lifeForm10")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_11_plot <- ggplot(life_form_11, aes(lifeForm11, "lifeForm11")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_12_plot <- ggplot(life_form_12, aes(lifeForm12, "lifeForm12")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_13_plot <- ggplot(life_form_13, aes(lifeForm13, "lifeForm13")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+life_form_14_plot <- ggplot(life_form_14, aes(lifeForm14, "lifeForm14")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_0_plot
+ggsave(file="life_form_0_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_1_plot
+ggsave(file="life_form_1_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_2_plot
+ggsave(file="life_form_2_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_3_plot
+ggsave(file="life_form_3_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_4) != 0) {
+
+life_form_4_plot
+ggsave(file="life_form_4_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_5) != 0) {
+
+
+life_form_5_plot
+ggsave(file="life_form_5_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_6) != 0) {
+
+  life_form_6_plot
+  ggsave(file="life_form_6_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+  life_form_7_plot
+  ggsave(file="life_form_7_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+  life_form_8_plot
+  ggsave(file="life_form_8_plot.png")
+}
+
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_9_plot
+ggsave(file="life_form_9_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+  print("RAN")
+life_form_10_plot
+ggsave(file="life_form_10_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_11_plot
+ggsave(file="life_form_11_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_12_plot
+ggsave(file="life_form_12_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_13_plot
+ggsave(file="life_form_13_plot.png")
+}
+```
+
+```{r}
+if(count(lifeform_8) != 0) {
+
+life_form_14_plot
+ggsave(file="life_form_14_plot.png")
+}
+```
+
+
+### Elevation
+```{r}
+life_form_0_plot <- ggplot(ENV_Plot_data_for_level, aes(Elevation, "Elevation")) +
+  geom_violin() +
+  geom_boxplot(width = .1) +
+  coord_flip()
+
+elevation
+ggsave(file="elevation.png")
 ```
 
 
@@ -353,60 +582,58 @@ TD <- Climate_Plot_data_for_level$TD
 
 ```{r}
 mat <- ggplot(Climate_Plot_data_for_level, aes(MAT, "MAT")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 dd5 <- ggplot(Climate_Plot_data_for_level, aes(DD5, "DD5")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 emt <- ggplot(Climate_Plot_data_for_level, aes(EMT, "EMT")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 map <- ggplot(Climate_Plot_data_for_level, aes(MAP, "MAP")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 msp <- ggplot(Climate_Plot_data_for_level, aes(MSP, "MSP")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 cmd <- ggplot(Climate_Plot_data_for_level, aes(CMD, "CMD")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 pas <- ggplot(Climate_Plot_data_for_level, aes(PAS, "PAS")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 ffp <- ggplot(Climate_Plot_data_for_level, aes(FFP, "FFP")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
 td <- ggplot(Climate_Plot_data_for_level, aes(TD, "TD")) +
-  geom_violin() +
-  geom_boxplot(width = .1) +
-  coord_flip()
+  geom_boxplot(width = .1) 
 
-mat
-dd5
-emt
-map
-msp
-cmd
-pas
-ffp
-td
+
 ```
+
+```{r}
+mat
+#ggsave(file="mat.png", width=400, height=200, units="px")
+ggsave(file="mat.png")
+dd5
+ggsave(file="dd5.png")
+emt
+ggsave(file="emt.png")
+map
+ggsave(file="map.png")
+msp
+ggsave(file="msp.png")
+cmd
+ggsave(file="cmd.png")
+pas
+ggsave(file="pas.png")
+ffp
+ggsave(file="ffp.png")
+td
+ggsave(file="td.png")
+
+```
+
 
 ```{r, echo=FALSE}
 df_temperature <- melt(data.frame(MAT, DD5, EMT))
@@ -582,6 +809,9 @@ wind_rose_df <- ENV_Plot_data_for_level[c("Aspect", "SlopeGradient") ] %>% drop_
 p1 <- plot.windrose(spd = wind_rose_df$SlopeGradient,
                    dir = wind_rose_df$Aspect)
 
+ggsave(file="windrose.png")
+
+
 sloping_less_than_five <- length(which(ENV_Plot_data_for_level["Aspect"]<5))
 sloping_999 <- length(which(ENV_Plot_data_for_level["Aspect"]==999))
 sloping_na <- length(which(is.na(ENV_Plot_data_for_level["Aspect"])))
@@ -602,6 +832,8 @@ elevation <- ggplot(ENV_Plot_data_for_level, aes(Elevation, "Elevation")) +
   coord_flip()
 
 elevation
+ggsave(file="elevation.png")
+
 
 ```
 ### Mesoslope
@@ -654,4 +886,6 @@ rootRestrictingType
 
 ### Gleying DEpth
 Missing
+
+
 
