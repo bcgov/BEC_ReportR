@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+BEC_ReportR
+level
+node_modules
+www/.DS_Store
+.DS_Store
+_targets
+

@@ -1,0 +1,117 @@
+---
+title: "Msc. code"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+Hier.data
+SUTab
+
+#jointdataset <- merge(Hier.data, SUTab, by = "SiteUnit")
+jointdataset <- inner_join(SUTab, Hier.data, by = "SiteUnit")
+
+jointdataset <- jointdataset[order(jointdataset$SiteUnit),]
+Hier.data <- Hier.data[order(Hier.data$SiteUnit),]
+SUTab <- SUTab[order(SUTab$SiteUnit)]
+```
+
+```{r}
+SiteUnits_in_Class <- aggregate(SiteUnit ~ Class, data = Hier.data, unique)
+SiteUnits_in_Order <- aggregate(SiteUnit ~ Order, data = Hier.data, unique)
+SiteUnits_in_Suborder <- aggregate(SiteUnit ~ Suborder, data = Hier.data, unique)
+```
+
+```{r}
+SUTab <- fread("./BEC_ReportR/Classification_tables/ALLBECSU_2021_SU.csv")
+SUTab$SiteUnit <-  trimws(SUTab$SiteUnit)
+```
+
+## Playground
+
+```{r}
+
+# Hier file
+
+SiteUnits <- c("A", "B", "C", "D", "Z")
+Order <- c(1,2,3,4, 26)
+
+df <- data.frame(SiteUnits, Order)
+
+# Plot file
+
+SiteUnits <- c("A", "D", "C", "B", "E", "F", "A", "D")
+Plots <- c("a", "d", "c", "b", "e", "f", "a", "d")
+
+# Expected output
+
+df2 <- data.frame(SiteUnits, Plots)
+
+df2 %>% filter(SiteUnits == "A")
+
+jointdataset <- merge(df, df2, by = 'SiteUnits')
+
+print(df2)
+print(jointdataset)
+
+```
+
+```{r}
+SUTab$SiteUnit %>% unique %>% length
+SUTab$SiteUnit %>% length
+
+SUTab$PlotNumber %>% unique %>% length
+SUTab$PlotNumber %>% length
+
+Hier.data$SiteUnit %>% unique %>% length
+Hier.data$SiteUnit %>% length
+
+Hier.data$Order %>% unique %>% length
+Hier.data$Order %>% length
+
+
+```
+
+```{r}
+jointdataset <- merge(df, df2, by = 'SiteUnits')
+print(jointdataset)
+
+left_join_dataset = left_join(df, df2, by = 'SiteUnits')
+print(left_join_dataset)
+```
+
+```{r summerize plot data file test}
+x <- c("A", "B", "G")
+y <- c(5, 3, 7)
+z <- c("A", "X", "Z")
+r <- c("A", "T", "T")
+
+rolled_up_list <- list()
+
+
+df <- data.frame(x, y, z, r)
+lookup_df <- data.frame(variable_name=c("x", "y", "z", "r"), function_name=c("table", "min", "table", "table"))
+
+for (name in names(df)) {
+  
+  fun <- lookup_df %>% filter(variable_name == name) %>% pull("function_name")
+  rolled_up_list <- append(rolled_up_list, list(do.call(fun, df[name])))
+}
+
+print(rolled_up_list)
+
+
+```
+
+
+```{r}
+library(jsonlite)
+
+json <- '{"name": "Oamar", "dob": "June 20 1994", "age": 27, "interests": ["bike", "ski", "code"]}'
+fromJSON(json, simplifyVector = FALSE)
+
+```

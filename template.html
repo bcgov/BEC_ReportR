@@ -1,0 +1,111 @@
+<html>
+  <head>
+    {{ headContent() }}
+    <!-- {{ bootstrapLib() }} -->
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/united/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <img class="bc-logo" src="assets/bc-logo.svg" alt="logo" />
+        </div>
+        <div
+          class="nav navbar-nav navbar-right flex-container"
+          style="margin-right: 100px"
+        >
+          <div id="listLevelNames" class="shiny-html-output"></div>
+          <div id="listLevelValues" class="shiny-html-output"></div>
+          <div style="margin-top: 25px">{{ run }}</div>
+        </div>
+      </div>
+    </nav>
+
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+
+      function App() {
+        const [path, setPath] = useState("");
+        const [vegReport, setVegReport] = useState("");
+        const [levelName, setLevelName] = useState("");
+        const [levelValue, setLevelValue] = useState("");
+
+        document.getElementById("run").onclick = function () {
+          const levelName =
+            document.getElementById("selectLevelName").firstChild.innerHTML;
+          const levelValue =
+            document.getElementById("selectLevelValue").firstChild.innerHTML;
+
+          const path = `${levelName}/${levelValue}`;
+
+          setLevelName(levelName);
+          setLevelValue(levelValue);
+          setPath(path);
+        };
+
+        return (
+          <div className="container-fluid text-center gutter">
+            <div className="row content">
+              <div className="col-sm-12 text-left">
+                <div className="banner">
+                  <img className="logo" src="assets/tree_logo.png" alt="logo" />
+                  <h1 className="title">
+                    Biogeoclimetic Ecosystem Classification
+                  </h1>
+                </div>
+                <span>
+                  {levelName} {levelValue}
+                </span>
+              </div>
+            </div>
+            <div className="row content">
+              <div className="col-sm-8 text-left">
+                {path !== "" && (
+                  <object
+                    className="veg"
+                    type="text/html"
+                    data={`./${path}/veg_report.html`}
+                  ></object>
+                )}
+              </div>
+              <div className="col-sm-4 text-left side-panel">
+                <img
+                  className="hierarchy"
+                  src={`${path}/hierarchy.png`}
+                  alt="hierchy"
+                />
+                <img
+                  className="side-img"
+                  src={`${path}/edatpic.png`}
+                  alt="edatope"
+                />
+                <img
+                  className="side-img"
+                  src={`${path}/bc_map.png`}
+                  alt="map"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
