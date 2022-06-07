@@ -65,7 +65,6 @@ server <- function(input, output) {
     observeEvent(input$run, {
         level.name <- input$selectLevelName
         level.value <- input$selectLevelValue
-        # level.value <- "CLASS Tsugmer"
 
         level_name_dir <- file.path("level", level.name)
         if (!dir.exists(level_name_dir)) dir.create(level_name_dir, recursive = TRUE)

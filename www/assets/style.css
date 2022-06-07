@@ -1,5 +1,5 @@
- /* Remove the navbar's default margin-bottom and rounded borders */
- .navbar {
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
   margin-bottom: 0;
   border-radius: 0;
 }
@@ -10,13 +10,97 @@
 }
 
 .logo {
-  width: 160px;
+  width: 140px;
   height: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-right: 15px;
 }
 
 .title {
-  font-size: 70px;
+  margin-left: 10px;
+  max-width: 1000px;
+  font-size: 60px;
+  margin-bottom: 50px;
+}
+
+.report-section-header {
+  font-size: 15px;
+}
+
+/* .scale-image {
+  border: solid;
+  object-position: 50% 50%;
+  height: 100px;
+  object-fit: cover;
+} */
+
+.scale-image {
+  margin-top: 16px;
+  margin-left: 7px;
+  height: 410px;
+  clip-path: polygon(0 38%, 100% 38%, 100% 56%, 0 56%);
+}
+
+.table-row {
+  margin-bottom: 50px;
+  height: 50px;
+  
+}
+
+.table-row {
+  margin-bottom: 50px;
+  height: 50px;
+  
+}
+
+.table-cell {
+  height: 50px;
+  margin-left: 25px;
+  flex-direction: row;
+  align-self: flex-start;
+  font-size: 18px;
+}
+
+.strata-table-cell {
+  height: 600px;
+  margin-left: 25px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.strata-header {
+  flex-direction: row;
+  width: 1000px;
+}
+
+.strata-label {
+  height: 400px;
+}
+
+.strata-img {
+  height: 300px;
+}
+
+.table-stata {
+  flex-direction: row;
+}
+
+.table {
+  margin-top: -130px;
+  flex-direction: column;
+}
+
+.strata-table {
+  flex-direction: column;
+  margin-top: 200px;
+}
+
+.level {
+  font-size: 20px;
+  padding-top: 26px;
+  margin-bottom: 16px;
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -26,6 +110,12 @@ footer {
   background-color: #555;
   color: white;
   padding: 15px;
+}
+
+.section {
+  font-size: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .bc-logo {
@@ -62,19 +152,30 @@ footer {
   margin-bottom: 20px;
 }
 
+.edatopic {
+  margin-top: 40px;
+  width: 130%;
+  z-index: -1;
+}
+
 .hierarchy {
-  width: 70%;
-  height: 70%;
+  width: 145%;
+  height: 45%;
   object-fit: contain;
   margin-bottom: 20px;
+  margin-left: 20px;
+  z-index: 100;
+  position: relative;
 }
 
 .veg {
+  margin-top: 15px;
   width: 100%;
   height: 100%;
   border: solid;
 }
 
 row {
+  margin-top: 10px;
   margin-bottom: 20px;
 }

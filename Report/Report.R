@@ -208,7 +208,7 @@ generateReport <- function(level_name, level_value) {
 
 
   ## ---- echo=FALSE--------------------------------------------------------------------------------------------------------
-  strata_cover <- melt(data.frame(Tree, Herb, Shrub))
+ # strata_cover <- melt(data.frame(Tree, Herb, Shrub))
 
   # Multiple plots same axis
   # p <- ggplot(strata_cover, aes(factor(variable), value)) +
@@ -219,34 +219,41 @@ generateReport <- function(level_name, level_value) {
     geom_violin() +
     geom_boxplot(width = .1) +
     coord_flip()
+  
+  tree
+  ggsave(file.path("www", level_name, level_value, "tree.png"))
 
   herb <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverHerb, "Herb")) +
     geom_violin() +
     geom_boxplot(width = .1) +
     coord_flip()
+  
+  herb
+  ggsave(file.path("www", level_name, level_value, "herb.png"))
+  
 
   shrub <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverShrub, "Shrub")) +
     geom_violin() +
     geom_boxplot(width = .1) +
     coord_flip()
+  
+  shrub
+  ggsave(file.path("www", level_name, level_value, "shrub.png"))
 
   moss <- ggplot(ENV_Plot_data_for_level, aes(StrataCoverMoss, "Moss")) +
     geom_violin() +
     geom_boxplot(width = .1) +
     coord_flip()
-
-  tree
-  ggsave(file.path("www", level_name, level_value, "tree.png"))
-
-  herb
-  ggsave(file.path("www", level_name, level_value, "herb.png"))
-  
-
-  shrub
-  ggsave(file.path("www", level_name, level_value, "shrub.png"))
   
   moss
   ggsave(file.path("www", level_name, level_value, "moss.png"))
+
+
+
+
+
+  
+
   
 
 
@@ -573,57 +580,50 @@ generateReport <- function(level_name, level_value) {
   ## -----------------------------------------------------------------------------------------------------------------------
   mat <- ggplot(Climate_Plot_data_for_level, aes(MAT, "MAT")) +
     geom_boxplot(width = .1)
+  mat
+  ggsave(file.path("www", level_name, level_value, "mat.png"))
 
   dd5 <- ggplot(Climate_Plot_data_for_level, aes(DD5, "DD5")) +
     geom_boxplot(width = .1)
+  dd5
+  ggsave(file.path("www", level_name, level_value, "dd5.png"))
 
   emt <- ggplot(Climate_Plot_data_for_level, aes(EMT, "EMT")) +
     geom_boxplot(width = .1)
+  emt
+  ggsave(file.path("www", level_name, level_value, "emt.png"))
 
   map <- ggplot(Climate_Plot_data_for_level, aes(MAP, "MAP")) +
     geom_boxplot(width = .1)
+  map
+  ggsave(file.path("www", level_name, level_value, "map.png"))
 
   msp <- ggplot(Climate_Plot_data_for_level, aes(MSP, "MSP")) +
     geom_boxplot(width = .1)
+  msp
+  ggsave(file.path("www", level_name, level_value, "msp.png"))
 
   cmd <- ggplot(Climate_Plot_data_for_level, aes(CMD, "CMD")) +
     geom_boxplot(width = .1)
+  cmd
+  ggsave(file.path("www", level_name, level_value, "cmd.png"))
 
   pas <- ggplot(Climate_Plot_data_for_level, aes(PAS, "PAS")) +
     geom_boxplot(width = .1)
+  pas
+  ggsave(file.path("www", level_name, level_value, "pas.png"))
 
   ffp <- ggplot(Climate_Plot_data_for_level, aes(FFP, "FFP")) +
     geom_boxplot(width = .1)
+  ffp
+  ggsave(file.path("www", level_name, level_value, "ffp.png"))
 
   td <- ggplot(Climate_Plot_data_for_level, aes(TD, "TD")) +
     geom_boxplot(width = .1)
-
-
-
-
-  ## -----------------------------------------------------------------------------------------------------------------------
-  mat
-  ggsave(file.path("www", level_name, level_value, "mat.png"))
-  dd5
-  ggsave(file.path("www", level_name, level_value, "dd5.png"))
-  emt
-  ggsave(file.path("www", level_name, level_value, "emt.png"))
-  map
-  ggsave(file.path("www", level_name, level_value, "map.png"))
-  msp
-  ggsave(file.path("www", level_name, level_value, "msp.png"))
-  cmd
-  ggsave(file.path("www", level_name, level_value, "cmd.png"))
-  pas
-  ggsave(file.path("www", level_name, level_value, "pas.png"))
-  ffp
-  ggsave(file.path("www", level_name, level_value, "ffp.png"))
   td
   ggsave(file.path("www", level_name, level_value, "td.png"))
+
   
-
-
-
   ## ---- echo=FALSE--------------------------------------------------------------------------------------------------------
   # df_temperature <- melt(data.frame(MAT, DD5, EMT))
   # df_precipitation <- melt(data.frame(MAP, MSP, PAS))

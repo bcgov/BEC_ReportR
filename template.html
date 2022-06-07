@@ -68,13 +68,28 @@
                     Biogeoclimetic Ecosystem Classification
                   </h1>
                 </div>
-                <span>
-                  {levelName} {levelValue}
-                </span>
+                <span className="level">{levelValue}</span>
+              </div>
+            </div>
+            <div className="row content">
+              <div className="col-sm-12 text-left">
+                <br />
               </div>
             </div>
             <div className="row content">
               <div className="col-sm-8 text-left">
+                <form className="">
+                  <div className="form-group">
+                    <label for="exampleFormControlTextarea1">
+                      Concept Statement
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                </form>
                 {path !== "" && (
                   <object
                     className="veg"
@@ -83,22 +98,157 @@
                   ></object>
                 )}
               </div>
-              <div className="col-sm-4 text-left side-panel">
+              <div className="col-sm-4 text-right side-panel">
                 <img
                   className="hierarchy"
                   src={`${path}/hierarchy.png`}
                   alt="hierchy"
                 />
                 <img
-                  className="side-img"
+                  className="edatopic"
                   src={`${path}/edatpic.png`}
                   alt="edatope"
                 />
-                <img
-                  className="side-img"
-                  src={`${path}/bc_map.png`}
-                  alt="map"
-                />
+
+                {
+                  //   <img
+                  //   className="side-img"
+                  //   src={`${path}/bc_map.png`}
+                  //   alt="map"
+                  // />
+                }
+              </div>
+            </div>
+            <div className="row content">
+              <div className="col-sm-12 text-left">
+                <div className="banner">
+                  <h1 className="section">Climate</h1>
+                </div>
+                <span className="report-section-header">
+                  <h3> BGCs</h3>
+                  <br />
+                </span>
+                <div className="table">
+                  <div className="table-row">
+                    <span className="table-cell">
+                      MAT
+                      <img
+                        className="scale-image"
+                        src={`${path}/mat.png`}
+                        alt="mat"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      DD5
+                      <img
+                        className="scale-image"
+                        src={`${path}/dd5.png`}
+                        alt="dd5"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      EMT
+                      <img
+                        className="scale-image"
+                        src={`${path}/emt.png`}
+                        alt="emt"
+                      />
+                    </span>
+                  </div>
+                  <div className="table-row">
+                    <span className="table-cell">
+                      MAP
+                      <img
+                        className="scale-image"
+                        src={`${path}/map.png`}
+                        alt="mat"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      MSP
+                      <img
+                        className="scale-image"
+                        src={`${path}/msp.png`}
+                        alt="dd5"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      PAS
+                      <img
+                        className="scale-image"
+                        src={`${path}/pas.png`}
+                        alt="emt"
+                      />
+                    </span>
+                  </div>
+                  <div className="table-row">
+                    <span className="table-cell">
+                      CMD
+                      <img
+                        className="scale-image"
+                        src={`${path}/cmd.png`}
+                        alt="mat"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      FFP
+                      <img
+                        className="scale-image"
+                        src={`${path}/ffp.png`}
+                        alt="dd5"
+                      />
+                    </span>
+                    <span className="table-cell">
+                      TD{" "}
+                      <img
+                        className="scale-image"
+                        src={`${path}/td.png`}
+                        alt="emt"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row content">
+              <div className="col-sm-12 text-left">
+                <div className="strata-table">
+                  <h3>Strata Cover</h3>
+                  <div className="strata-table-row">
+                    <span className="strata-table-cell">
+                      Tree
+                      <img
+                        className="strata-img"
+                        src={`${path}/tree.png`}
+                        alt="emt"
+                      />
+                    </span>
+                    <span className="strata-table-cell">
+                      Herb
+                      <img
+                        className="strata-img"
+                        src={`${path}/herb.png`}
+                        alt="emt"
+                      />
+                    </span>
+                    <span className="strata-table-cell">
+                      Moss
+                      <img
+                        className="strata-img"
+                        src={`${path}/moss.png`}
+                        alt="emt"
+                      />
+                    </span>
+                    <span className="strata-table-cell">
+                      Shrub
+                      <img
+                        className="strata-img"
+                        src={`${path}/shrub.png`}
+                        alt="emt"
+                      />
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
